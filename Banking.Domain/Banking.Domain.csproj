@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\Accounts\" />
+    <Folder Include="Entity\Common\" />
+    <Folder Include="Entity\Customers\" />
+    <Folder Include="Entity\Transactions\" />
+    <Folder Include="Repository\Accounts\" />
+    <Folder Include="Repository\Common\" />
+    <Folder Include="Repository\Customers\" />
+    <Folder Include="Repository\Transactions\" />
+    <Folder Include="Service\Accounts\" />
+    <Folder Include="Service\Common\" />
+    <Folder Include="Service\Customers\" />
+    <Folder Include="Service\Transactions\" />
+  </ItemGroup>
+
+</Project>
