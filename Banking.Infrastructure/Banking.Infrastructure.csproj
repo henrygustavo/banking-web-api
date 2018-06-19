@@ -5,10 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\Accounts\" />
-    <Folder Include="Repository\Common\" />
-    <Folder Include="Repository\Customers\" />
-    <Folder Include="Repository\Transactions\" />
+    <Compile Remove="Repository\Transactions\**" />
+    <EmbeddedResource Remove="Repository\Transactions\**" />
+    <None Remove="Repository\Transactions\**" />
   </ItemGroup>
 
 </Project>

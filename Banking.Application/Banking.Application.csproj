@@ -4,11 +4,4 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Dto\Accounts\" />
-    <Folder Include="Dto\Common\" />
-    <Folder Include="Dto\Customers\" />
-    <Folder Include="Dto\Transactions\" />
-  </ItemGroup>
-
 </Project>
