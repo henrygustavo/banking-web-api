@@ -7,21 +7,18 @@
   <ItemGroup>
     <Compile Remove="Entity\Common\**" />
     <Compile Remove="Entity\Transactions\**" />
-    <Compile Remove="Repository\Common\**" />
     <Compile Remove="Repository\Transactions\**" />
     <Compile Remove="Service\Accounts\**" />
     <Compile Remove="Service\Common\**" />
     <Compile Remove="Service\Customers\**" />
     <EmbeddedResource Remove="Entity\Common\**" />
     <EmbeddedResource Remove="Entity\Transactions\**" />
-    <EmbeddedResource Remove="Repository\Common\**" />
     <EmbeddedResource Remove="Repository\Transactions\**" />
     <EmbeddedResource Remove="Service\Accounts\**" />
     <EmbeddedResource Remove="Service\Common\**" />
     <EmbeddedResource Remove="Service\Customers\**" />
     <None Remove="Entity\Common\**" />
     <None Remove="Entity\Transactions\**" />
-    <None Remove="Repository\Common\**" />
     <None Remove="Repository\Transactions\**" />
     <None Remove="Service\Accounts\**" />
     <None Remove="Service\Common\**" />

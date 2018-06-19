@@ -9,7 +9,7 @@ namespace Banking.Api.Controllers.Accounts
 {
     [Produces("application/json")]
     [Route("api/Accounts")]
-    public class AccountsController : Controller
+    public class BankAccountsController : Controller
     {
         // GET: api/Accounts
         [HttpGet]

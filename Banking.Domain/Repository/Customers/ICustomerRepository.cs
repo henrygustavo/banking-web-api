@@ -1,6 +1,9 @@
 ﻿namespace Banking.Domain.Repository.Customers
 {
-    public interface ICustomerRepository
+    using Banking.Domain.Entity.Customers;
+    using Banking.Domain.Repository.Common;
+
+    public interface ICustomerRepository : IRepository<Customer>
     {
     }
 }

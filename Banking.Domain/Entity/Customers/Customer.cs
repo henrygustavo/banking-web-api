@@ -5,11 +5,15 @@
 
     public class Customer
     {
+        public Customer()
+        {
+            BankAccounts = new HashSet<BankAccount>();
+        }
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<BankAccount> BankAccounts { get; set; }
         public string FullName => $"{FirstName} {LastName}";
+        public ICollection<BankAccount> BankAccounts { get; set; }
     }
 }
 
