@@ -28,10 +28,10 @@
             services.AddDbContext<BankingContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSingleton<ITransactionApplicationService, TransactionApplicationService>();
-            services.AddSingleton<ICustomerRepository, CustomerRepository>();
-            services.AddSingleton<IBankAccountRepository, BankAccountRepository>();
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITransactionApplicationService, TransactionApplicationService>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IBankAccountRepository, BankAccountRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddMvc();
         }

@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Produces("application/json")]
-    [Route("api/BankTransfer")]
+    [Route("api/bankTransfer")]
     public class BankTransferController : Controller
     {
         private ITransactionApplicationService _transactionApplicationService;
