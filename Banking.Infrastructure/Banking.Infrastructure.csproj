@@ -10,4 +10,8 @@
     <None Remove="Repository\Transactions\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Banking.Domain\Banking.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

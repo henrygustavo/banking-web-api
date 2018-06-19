@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Banking.Domain.Entity.Accounts
+﻿namespace Banking.Domain.Entity.Accounts
 {
-    class BankAccount
+    using Banking.Domain.Entity.Customers;
+
+    public class BankAccount
     {
+        public int Id { get; set; }
+        public string Number { get; set; }
+        public decimal Balance { get; set; }
+        public bool IsLocked { get; set; }
+        public Customer Customer { get; set; }
+
     }
 }

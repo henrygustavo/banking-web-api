@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Banking.Infrastructure.Repository.Customers
+﻿namespace Banking.Infrastructure.Repository.Customers
 {
-    class CustomerRepository
+    using Banking.Domain.Repository.Customers;
+
+    public class CustomerRepository: ICustomerRepository
     {
     }
 }
