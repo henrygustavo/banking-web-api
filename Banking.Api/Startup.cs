@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
-namespace Banking.Api
+﻿namespace Banking.Api
 {
+    using Banking.Application.Service.Transactions;
+    using Banking.Domain.Repository.Accounts;
+    using Banking.Domain.Repository.Common;
+    using Banking.Domain.Repository.Customers;
+    using Banking.Infrastructure.Repository.Accounts;
+    using Banking.Infrastructure.Repository.Common;
+    using Banking.Infrastructure.Repository.Customers;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -23,6 +25,14 @@ namespace Banking.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<BankingContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<ITransactionApplicationService, TransactionApplicationService>();
+            services.AddSingleton<ICustomerRepository, CustomerRepository>();
+            services.AddSingleton<IBankAccountRepository, BankAccountRepository>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
             services.AddMvc();
         }
 

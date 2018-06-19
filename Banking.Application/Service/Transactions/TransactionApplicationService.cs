@@ -2,7 +2,7 @@
 {
     using Banking.Domain.Repository.Common;
 
-    public class TransactionApplicationService
+    public class TransactionApplicationService: ITransactionApplicationService
     {
         private IUnitOfWork _unitOfWork;
 
