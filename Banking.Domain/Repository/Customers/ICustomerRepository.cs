@@ -5,5 +5,6 @@
 
     public interface ICustomerRepository : IRepository<Customer>
     {
+        Customer GetByIdWithBankAccounts(int id);
     }
 }
