@@ -53,7 +53,7 @@
                .UseDefaultFiles(options)
                .UseStaticFiles();
 
-            seeder.Seed().Wait();
+            //seeder.Seed().Wait();
         }
     }
 }

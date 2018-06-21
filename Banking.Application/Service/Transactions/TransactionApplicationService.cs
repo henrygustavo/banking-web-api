@@ -14,7 +14,7 @@
         public void PerformTransfer()
         {
             var customers = _unitOfWork.Customers.Get(1);
-            var bankAccounts = _unitOfWork.BankAccounts.Get(1);
+            //var bankAccounts = _unitOfWork.BankAccounts.Get(1);
 
         }
     }
