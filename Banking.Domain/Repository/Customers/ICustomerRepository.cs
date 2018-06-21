@@ -1,7 +1,7 @@
 ﻿namespace Banking.Domain.Repository.Customers
 {
     using Banking.Domain.Entity.Customers;
-    using Banking.Domain.Repository.Common;
+    using Common;
 
     public interface ICustomerRepository : IRepository<Customer>
     {

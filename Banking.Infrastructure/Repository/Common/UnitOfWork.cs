@@ -3,8 +3,8 @@
     using Banking.Domain.Repository.Accounts;
     using Banking.Domain.Repository.Common;
     using Banking.Domain.Repository.Customers;
-    using Banking.Infrastructure.Repository.Accounts;
-    using Banking.Infrastructure.Repository.Customers;
+    using Accounts;
+    using Customers;
 
     public class UnitOfWork : IUnitOfWork
     {

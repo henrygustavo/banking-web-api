@@ -2,7 +2,7 @@
 {
     using Banking.Domain.Entity.Customers;
     using Banking.Domain.Repository.Customers;
-    using Banking.Infrastructure.Repository.Common;
+    using Common;
 
     public class CustomerRepository: BaseRepository<Customer>, ICustomerRepository
     {

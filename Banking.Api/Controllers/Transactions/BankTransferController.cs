@@ -8,7 +8,7 @@
     [Route("api/bankTransfer")]
     public class BankTransferController : Controller
     {
-        private ITransactionApplicationService _transactionApplicationService;
+        private readonly ITransactionApplicationService _transactionApplicationService;
 
         public BankTransferController(ITransactionApplicationService transactionApplicationService)
         {

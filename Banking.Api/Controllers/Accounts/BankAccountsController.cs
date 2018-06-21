@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Banking.Api.Controllers.Accounts
+﻿namespace Banking.Api.Controllers.Accounts
 {
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc;
+
     [Produces("application/json")]
     [Route("api/Accounts")]
     public class BankAccountsController : Controller

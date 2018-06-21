@@ -1,7 +1,7 @@
 ﻿namespace Banking.Domain.Repository.Common
 {
-    using Banking.Domain.Repository.Accounts;
-    using Banking.Domain.Repository.Customers;
+    using Accounts;
+    using Customers;
     using System;
 
     public interface IUnitOfWork : IDisposable

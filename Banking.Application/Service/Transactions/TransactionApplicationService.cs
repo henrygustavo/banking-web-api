@@ -1,10 +1,10 @@
 ﻿namespace Banking.Application.Service.Transactions
 {
-    using Banking.Domain.Repository.Common;
+    using Domain.Repository.Common;
 
     public class TransactionApplicationService: ITransactionApplicationService
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public TransactionApplicationService(IUnitOfWork unitOfWork)
         {

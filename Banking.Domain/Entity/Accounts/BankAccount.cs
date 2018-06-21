@@ -1,6 +1,6 @@
 ﻿namespace Banking.Domain.Entity.Accounts
 {
-    using Banking.Domain.Entity.Customers;
+    using Customers;
 
     public class BankAccount
     {

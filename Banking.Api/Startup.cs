@@ -1,12 +1,12 @@
 ﻿namespace Banking.Api
 {
-    using Banking.Application.Service.Transactions;
-    using Banking.Domain.Repository.Accounts;
-    using Banking.Domain.Repository.Common;
-    using Banking.Domain.Repository.Customers;
-    using Banking.Infrastructure.Repository.Accounts;
-    using Banking.Infrastructure.Repository.Common;
-    using Banking.Infrastructure.Repository.Customers;
+    using Application.Service.Transactions;
+    using Domain.Repository.Accounts;
+    using Domain.Repository.Common;
+    using Domain.Repository.Customers;
+    using Infrastructure.Repository.Accounts;
+    using Infrastructure.Repository.Common;
+    using Infrastructure.Repository.Customers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -32,12 +32,13 @@
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<DbInitializer>();
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbInitializer seeder)
         {
             if (env.IsDevelopment())
             {
@@ -51,6 +52,8 @@
             app.UseMvc()
                .UseDefaultFiles(options)
                .UseStaticFiles();
+
+            seeder.Seed().Wait();
         }
     }
 }
