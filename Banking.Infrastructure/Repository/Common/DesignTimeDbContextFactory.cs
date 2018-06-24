@@ -12,8 +12,10 @@
         
             IConfigurationRoot configuration = new ConfigurationBuilder().Build();
             var builder = new DbContextOptionsBuilder<BankingContext>();
-            var connectionString = ("Server = (localdb)\\MSSQLLocalDB; Database = BankingDB; Integrated Security = SSPI; MultipleActiveResultSets = true");
-            builder.UseSqlServer(connectionString);
+            // var connectionString = ("Server = (localdb)\\MSSQLLocalDB; Database = BankingDB; Integrated Security = SSPI; MultipleActiveResultSets = true");
+            //builder.UseSqlServer(connectionString);
+            var mySqlConnection = "server = XXXX - XXXX; port = 3306; database = XXXX - XXXX; uid = XXXX - XXXX; password = XXXX - XXXX";
+            builder.UseMySql(mySqlConnection);
             return new BankingContext(builder.Options);
         }
     }

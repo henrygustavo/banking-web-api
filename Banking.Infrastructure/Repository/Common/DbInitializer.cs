@@ -3,6 +3,7 @@
     using Banking.Domain.Entity.Accounts;
     using Banking.Domain.Entity.Customers;
     using System.Threading.Tasks;
+    using System.Linq;
 
     public class DbInitializer
     {
@@ -16,13 +17,22 @@
 
         public async Task Seed()
         {
-            var newCustomer = new Customer {FirstName = "Henry", LastName = "Fuentes"};
+            if (!_context.Customers.Any(p => p.Dni == "44444567"))
+            {
+                var newCustomer = new Customer { Id = 1, FirstName = "Henry", LastName = "Fuentes", Dni = "44444567"};
 
-            _context.Customers.Add(newCustomer);
+                _context.Customers.Add(newCustomer);
 
-            _context.BankAccounts.Add(new BankAccount{ Customer = newCustomer, Balance = 0,IsLocked = false , Number = "1234567890"});
+                _context.BankAccounts.Add(new BankAccount
+                {
+                    Customer = newCustomer,
+                    Balance = 0,
+                    IsLocked = false,
+                    Number = "1234567890"
+                });
+            }
 
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }
