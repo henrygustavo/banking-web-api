@@ -1,0 +1,6 @@
+﻿---
+applications:
+- name: banking-web-api
+  random-route: true
+  memory: 512M
+  buildpack: dotnet_core_buildpack

@@ -26,7 +26,8 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BankingContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
 
             services.AddScoped<ITransactionApplicationService, TransactionApplicationService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -53,7 +54,7 @@
                .UseDefaultFiles(options)
                .UseStaticFiles();
 
-            //seeder.Seed().Wait();
+            seeder.Seed().Wait();
         }
     }
 }
