@@ -1,6 +1,9 @@
 ﻿namespace Banking.Api
 {
     using Application.Service.Transactions;
+    using AutoMapper;
+    using Banking.Application.Service.Accounts;
+    using Banking.Application.Service.Customers;
     using Domain.Repository.Accounts;
     using Domain.Repository.Common;
     using Domain.Repository.Customers;
@@ -30,11 +33,14 @@
             options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
 
             services.AddScoped<ITransactionApplicationService, TransactionApplicationService>();
+            services.AddScoped<ICustomerApplicationService, CustomerApplicationService>();
+            services.AddScoped<IAccountApplicationService, AccountApplicationService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<DbInitializer>();
 
+            services.AddAutoMapper();
             services.AddMvc();
         }
 
