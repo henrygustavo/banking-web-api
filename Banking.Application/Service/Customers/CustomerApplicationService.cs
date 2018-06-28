@@ -28,21 +28,19 @@
         public void Add(CustomerDto entity)
         {
             _unitOfWork.Customers.Add(Mapper.Map<Customer>(entity));
+            _unitOfWork.Complete();
         }
 
         public void AddRange(IEnumerable<CustomerDto> entities)
         {
             _unitOfWork.Customers.AddRange(Mapper.Map<IEnumerable<Customer>>(entities));
+            _unitOfWork.Complete();
         }
 
         public void Remove(CustomerDto entity)
         {
             _unitOfWork.Customers.Remove(Mapper.Map<Customer>(entity));
-        }
-
-        public void RemoveRange(IEnumerable<CustomerDto> entities)
-        {
-            _unitOfWork.Customers.RemoveRange(Mapper.Map<IEnumerable<Customer>>(entities));
+            _unitOfWork.Complete();
         }
     }
 }
