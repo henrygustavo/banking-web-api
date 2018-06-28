@@ -14,7 +14,7 @@
             var builder = new DbContextOptionsBuilder<BankingContext>();
             // var connectionString = ("Server = (localdb)\\MSSQLLocalDB; Database = BankingDB; Integrated Security = SSPI; MultipleActiveResultSets = true");
             //builder.UseSqlServer(connectionString);
-            var mySqlConnection = "server = XXXX - XXXX; port = 3306; database = XXXX - XXXX; uid = XXXX - XXXX; password = XXXX - XXXX";
+            var mySqlConnection = "server=localhost;port=3306;database=bankingdb;uid=root;password=admin";
             builder.UseMySql(mySqlConnection);
             return new BankingContext(builder.Options);
         }
