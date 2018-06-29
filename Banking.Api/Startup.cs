@@ -60,12 +60,20 @@ namespace Banking.Api
             options.DefaultFileNames.Add("index.html");
 
             app.UseMvc()
+                .UseCors(builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials())
                 .UseDefaultFiles(options)
                 .UseStaticFiles()
                 .UseSwagger() // Enable middleware to serve generated Swagger as a JSON endpoint.
                 .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); }); // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
 
-            seeder.Seed().Wait();
+            if (env.IsDevelopment())
+            {
+                seeder.Seed().Wait();
+            }
         }
     }
 }
