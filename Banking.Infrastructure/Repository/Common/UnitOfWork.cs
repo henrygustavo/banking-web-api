@@ -17,8 +17,8 @@
             BankAccounts = new BankAccountRepository(_context);
         }
 
-        public ICustomerRepository Customers { get; private set; }
-        public IBankAccountRepository BankAccounts { get; private set; }
+        public ICustomerRepository Customers { get; }
+        public IBankAccountRepository BankAccounts { get; }
 
         public int Complete()
         {

@@ -2,5 +2,6 @@
 {
     public class BankAccountDto
     {
+       public int Id { get; set; }      
     }
 }

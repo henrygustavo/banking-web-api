@@ -1,9 +1,11 @@
-﻿namespace Banking.Api
+﻿using Swashbuckle.AspNetCore.Swagger;
+
+namespace Banking.Api
 {
     using Application.Service.Transactions;
     using AutoMapper;
-    using Banking.Application.Service.Accounts;
-    using Banking.Application.Service.Customers;
+    using Application.Service.Accounts;
+    using Application.Service.Customers;
     using Domain.Repository.Accounts;
     using Domain.Repository.Common;
     using Domain.Repository.Customers;
@@ -42,6 +44,7 @@
 
             services.AddAutoMapper();
             services.AddMvc();
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"}); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,8 +60,10 @@
             options.DefaultFileNames.Add("index.html");
 
             app.UseMvc()
-               .UseDefaultFiles(options)
-               .UseStaticFiles();
+                .UseDefaultFiles(options)
+                .UseStaticFiles()
+                .UseSwagger() // Enable middleware to serve generated Swagger as a JSON endpoint.
+                .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); }); // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
 
             seeder.Seed().Wait();
         }

@@ -25,22 +25,28 @@
             return Mapper.Map<IEnumerable<CustomerDto>>(_unitOfWork.Customers.GetAll());
         }
 
-        public void Add(CustomerDto entity)
+        public int Add(CustomerDto entity)
         {
             _unitOfWork.Customers.Add(Mapper.Map<Customer>(entity));
-            _unitOfWork.Complete();
+            return _unitOfWork.Complete();
         }
 
-        public void AddRange(IEnumerable<CustomerDto> entities)
+        public int Update(int id, CustomerDto entity)
         {
-            _unitOfWork.Customers.AddRange(Mapper.Map<IEnumerable<Customer>>(entities));
-            _unitOfWork.Complete();
-        }
+            var entityObj = _unitOfWork.Customers.Get(id);
 
-        public void Remove(CustomerDto entity)
+            entityObj.Dni = entity.Dni;
+            entityObj.FirstName = entity.FirstName;
+            entityObj.LastName = entity.LastName;
+
+            _unitOfWork.Customers.Update(entityObj);
+            return _unitOfWork.Complete();
+        }
+        public int Remove(int id)
         {
-            _unitOfWork.Customers.Remove(Mapper.Map<Customer>(entity));
-            _unitOfWork.Complete();
+            var entity = _unitOfWork.Customers.Get(id);
+            _unitOfWork.Customers.Remove(entity);
+            return _unitOfWork.Complete();
         }
     }
 }

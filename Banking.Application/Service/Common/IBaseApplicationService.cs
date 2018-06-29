@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Banking.Application.Service.Common
 {
@@ -9,8 +6,10 @@ namespace Banking.Application.Service.Common
     {
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
-        void Add(TEntity entity);
-        void AddRange(IEnumerable<TEntity> entities);
-        void Remove(TEntity entity);
+        int Add(TEntity entity);
+
+        int Update(int id, TEntity entity);
+
+        int Remove(int id);
     }
 }

@@ -24,7 +24,6 @@
 
         public IEnumerable<TEntity> GetAll()
         {
- 
             return Context.Set<TEntity>().ToList();
         }
 
@@ -41,6 +40,11 @@
         public void Add(TEntity entity)
         {
             Context.Set<TEntity>().Add(entity);
+        }
+
+        public void Update(TEntity entity)
+        {
+            Context.Set<TEntity>().Update(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)

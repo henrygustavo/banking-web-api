@@ -1,8 +1,8 @@
 ﻿namespace Banking.Application.Dto.Common
 {
     using AutoMapper;
-    using Banking.Application.Dto.Accounts;
-    using Banking.Application.Dto.Customers;
+    using Accounts;
+    using Customers;
     using Banking.Domain.Entity.Customers;
     public class MapperProfile : Profile
     {

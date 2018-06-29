@@ -26,19 +26,25 @@
             return Mapper.Map<IEnumerable<BankAccountDto>>(_unitOfWork.BankAccounts.GetAll());
         }
 
-        public void Add(BankAccountDto entity)
+        public int Add(BankAccountDto entity)
         {
             _unitOfWork.BankAccounts.Add(Mapper.Map<BankAccount>(entity));
+            return _unitOfWork.Complete();
         }
 
-        public void AddRange(IEnumerable<BankAccountDto> entities)
+        public int Update(int id, BankAccountDto entity)
         {
-            _unitOfWork.BankAccounts.AddRange(Mapper.Map<IEnumerable<BankAccount>>(entities));
+            var entityObj = _unitOfWork.BankAccounts.Get(id);
+
+            _unitOfWork.BankAccounts.Update(entityObj);
+            return _unitOfWork.Complete();
         }
 
-        public void Remove(BankAccountDto entity)
+        public int Remove(int id)
         {
-            _unitOfWork.BankAccounts.Remove(Mapper.Map<BankAccount>(entity));
+            var entity = _unitOfWork.Customers.Get(id);
+            _unitOfWork.Customers.Remove(entity);
+            return _unitOfWork.Complete();
         }
     }
 }
