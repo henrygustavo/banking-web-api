@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Swagger;
-
-namespace Banking.Api
+﻿namespace Banking.Api
 {
     using Application.Service.Transactions;
     using AutoMapper;
@@ -17,6 +15,7 @@ namespace Banking.Api
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Swashbuckle.AspNetCore.Swagger;
 
     public class Startup
     {

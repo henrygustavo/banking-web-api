@@ -7,23 +7,22 @@
       "sslPort": 0
     }
   },
+
   "profiles": {
-    "IIS Express": {
+    "Development": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "",
       "environmentVariables": {
+        "NAME_ENVIRONMENT": "Console-Development",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Banking.Api": {
-      "commandName": "Project",
+    "Production": {
+      "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/values",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:60888/"
+        "NAME_ENVIRONMENT": "Console-Production",
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
     }
   }
 }
