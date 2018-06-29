@@ -21,6 +21,12 @@
             return Ok(_customerApplicationService.GetAll());
         }
 
+        [HttpGet("{page}/{pageSize}")]
+        public IActionResult GetAll(int page = 1, int pageSize = 10)
+        {
+            return Ok(_customerApplicationService.GetAll(page, pageSize));
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

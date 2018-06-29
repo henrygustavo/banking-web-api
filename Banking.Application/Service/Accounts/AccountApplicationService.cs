@@ -5,6 +5,8 @@
     using Banking.Domain.Entity.Accounts;
     using Banking.Domain.Repository.Common;
     using System.Collections.Generic;
+    using System.Linq;
+    using Banking.Application.Dto.Common;
 
     public class AccountApplicationService : IAccountApplicationService
     {
@@ -24,6 +26,21 @@
         public IEnumerable<BankAccountDto> GetAll()
         {
             return Mapper.Map<IEnumerable<BankAccountDto>>(_unitOfWork.BankAccounts.GetAll());
+        }
+
+        public PaginationResultDto GetAll(int page, int pageSize)
+        {
+            var entities = _unitOfWork.Customers.GetAll(page, pageSize, "number", "asc").ToList();
+
+            var pagedRecord = new PaginationResultDto
+            {
+                Content = Mapper.Map<List<BankAccountDto>>(entities),
+                TotalRecords = _unitOfWork.BankAccounts.CountGetAll(),
+                CurrentPage = page,
+                PageSize = pageSize
+            };
+
+            return pagedRecord;
         }
 
         public int Add(BankAccountDto entity)

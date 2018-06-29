@@ -27,6 +27,22 @@
             return Context.Set<TEntity>().ToList();
         }
 
+        public IEnumerable<TEntity> GetAll(int pageNumber, int pageSize,
+                                        string orderBy, string orderDirection)
+        {
+
+            var skip = (pageNumber - 1) * pageSize;
+            return Context.Set<TEntity>()
+                .OrderBy(orderBy, orderDirection)
+                .Skip(skip)
+                .Take(pageSize);
+        }
+
+        public int CountGetAll()
+        {
+            return Context.Set<TEntity>().Count();
+        }
+
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
             return Context.Set<TEntity>().Where(predicate);

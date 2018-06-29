@@ -5,7 +5,9 @@
     using Banking.Domain.Entity.Customers;
     using Banking.Domain.Repository.Common;
     using System.Collections.Generic;
-  
+    using System.Linq;
+    using Banking.Application.Dto.Common;
+
     public class CustomerApplicationService : ICustomerApplicationService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,10 +27,28 @@
             return Mapper.Map<IEnumerable<CustomerDto>>(_unitOfWork.Customers.GetAll());
         }
 
+        public PaginationResultDto GetAll(int page, int pageSize)
+        {
+            var entities = _unitOfWork.Customers.GetAll(page, pageSize, "lastName", "asc").ToList();
+
+            var pagedRecord = new PaginationResultDto
+            {
+                Content = Mapper.Map<List<CustomerDto>>(entities),
+                TotalRecords = _unitOfWork.Customers.CountGetAll(),
+                CurrentPage = page,
+                PageSize = pageSize
+            };
+
+            return pagedRecord;
+        }
+
         public int Add(CustomerDto entity)
         {
-            _unitOfWork.Customers.Add(Mapper.Map<Customer>(entity));
-            return _unitOfWork.Complete();
+            var entityObj = Mapper.Map<Customer>(entity);
+            _unitOfWork.Customers.Add(entityObj);
+            _unitOfWork.Complete();
+
+            return entityObj.Id;
         }
 
         public int Update(int id, CustomerDto entity)
@@ -40,7 +60,9 @@
             entityObj.LastName = entity.LastName;
 
             _unitOfWork.Customers.Update(entityObj);
-            return _unitOfWork.Complete();
+            _unitOfWork.Complete();
+
+            return entityObj.Id;
         }
         public int Remove(int id)
         {

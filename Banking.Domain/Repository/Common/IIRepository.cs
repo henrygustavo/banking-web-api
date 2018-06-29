@@ -8,6 +8,12 @@
     {
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
+
+        IEnumerable<TEntity> GetAll(int pageNumber, int pageSize,
+            string orderBy, string orderDirection);
+
+        int CountGetAll();
+
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
