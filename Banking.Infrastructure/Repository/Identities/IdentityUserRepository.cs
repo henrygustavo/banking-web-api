@@ -15,10 +15,22 @@
             Context = context;
         }
 
+        public IdentityUser Get(int id)
+        {
+            return Context.Set<IdentityUser>().Where
+                (s => s.Id == id).Include(p => p.Customer).FirstOrDefault();
+        }
+
         public IdentityUser GetByUserName(string userName)
         {
             return Context.Set<IdentityUser>().Where
                 (s => s.UserName == userName).Include(p => p.Customer).FirstOrDefault();
+        }
+
+        public IdentityUser GetByEmail(string email)
+        {
+            return Context.Set<IdentityUser>().Where
+                (s => s.Email == email).Include(p => p.Customer).FirstOrDefault();
         }
 
         public void Add(IdentityUser identityUser)

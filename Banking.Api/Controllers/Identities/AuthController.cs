@@ -5,7 +5,7 @@
     using Banking.Application.Service.Identities;
 
     [Produces("application/json")]
-    [Route("api/Auth")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private readonly IIdentityUserApplicationService _identityUserApplicationService;
