@@ -21,5 +21,9 @@
                                           .FirstOrDefault();
         }
 
+        public Customer GetByDni(string dni)
+        {
+            return Context.Set<Customer>().FirstOrDefault(s => s.Dni == dni);
+        }
     }
 }

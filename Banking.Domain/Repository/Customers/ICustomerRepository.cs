@@ -6,5 +6,6 @@
     public interface ICustomerRepository : IRepository<Customer>
     {
         Customer GetByIdWithBankAccounts(int id);
+        Customer GetByDni(string dni);
     }
 }

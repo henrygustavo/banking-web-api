@@ -2,9 +2,12 @@
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
 
     [Produces("application/json")]
     [Route("api/Accounts")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrator")]
     public class BankAccountsController : Controller
     {
         // GET: api/Accounts

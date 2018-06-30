@@ -3,9 +3,12 @@
     using Banking.Application.Dto.Customers;
     using Banking.Application.Service.Customers;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
 
     [Produces("application/json")]
     [Route("api/customers")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrator")]
     public class CustomersController : Controller
     {
         private readonly ICustomerApplicationService _customerApplicationService;
@@ -16,12 +19,6 @@
         }
 
         [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok(_customerApplicationService.GetAll());
-        }
-
-        [HttpGet("{page}/{pageSize}")]
         public IActionResult GetAll(int page = 1, int pageSize = 10)
         {
             return Ok(_customerApplicationService.GetAll(page, pageSize));
@@ -31,6 +28,12 @@
         public IActionResult Get(int id)
         {
             return Ok(_customerApplicationService.Get(id));
+        }
+
+        [HttpGet("dni/{dni}")]
+        public IActionResult Get(string dni)
+        {
+            return Ok(_customerApplicationService.GetByDni(dni));
         }
 
         [HttpPost]

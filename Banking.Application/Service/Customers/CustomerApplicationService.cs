@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Banking.Application.Dto.Common;
+    using Banking.Domain.Entity.Identities;
 
     public class CustomerApplicationService : ICustomerApplicationService
     {
@@ -19,9 +20,27 @@
 
         public CustomerDto Get(int id)
         {
-            return Mapper.Map<CustomerDto>(_unitOfWork.Customers.Get(id));
+            Customer customer = _unitOfWork.Customers.Get(id);
+
+            if(customer == null) return  new CustomerDto();
+
+            IdentityUser identityUser = _unitOfWork.IdentityUsers.Get(customer.IdentityUserId);
+
+            CustomerDto customerDto =  Mapper.Map<CustomerDto>(customer);
+
+            customerDto.UserName = identityUser.UserName;
+            customerDto.Email = identityUser.Email;
+
+            return customerDto;
         }
 
+        public CustomerDto GetByDni(string dni)
+        { 
+            Customer customer = _unitOfWork.Customers.GetByDni(dni);
+            if(customer == null) return  new CustomerDto();
+        
+            return Mapper.Map<CustomerDto>(customer);
+        }
         public IEnumerable<CustomerDto> GetAll()
         {
             return Mapper.Map<IEnumerable<CustomerDto>>(_unitOfWork.Customers.GetAll());
@@ -44,8 +63,22 @@
 
         public int Add(CustomerDto entity)
         {
+            var identityUser = new IdentityUser
+            {
+                UserName = entity.UserName,
+                Email = entity.Email,
+                Password = entity.Password,
+                Role = "member"
+            };
+
+            _unitOfWork.IdentityUsers.Add(identityUser);
+
             var entityObj = Mapper.Map<Customer>(entity);
+
+            entityObj.IdentityUserId = identityUser.Id;
+
             _unitOfWork.Customers.Add(entityObj);
+           
             _unitOfWork.Complete();
 
             return entityObj.Id;
@@ -55,7 +88,6 @@
         {
             var entityObj = _unitOfWork.Customers.Get(id);
 
-            entityObj.Dni = entity.Dni;
             entityObj.FirstName = entity.FirstName;
             entityObj.LastName = entity.LastName;
 

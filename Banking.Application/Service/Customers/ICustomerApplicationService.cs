@@ -5,5 +5,6 @@
 
     public interface ICustomerApplicationService : IBaseApplicationService<CustomerDto>
     {
+        CustomerDto GetByDni(string dni);
     }
 }
