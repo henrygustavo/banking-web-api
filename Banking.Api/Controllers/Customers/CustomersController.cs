@@ -3,9 +3,12 @@
     using Banking.Application.Dto.Customers;
     using Banking.Application.Service.Customers;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
 
     [Produces("application/json")]
     [Route("api/customers")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrator")]
     public class CustomersController : Controller
     {
         private readonly ICustomerApplicationService _customerApplicationService;

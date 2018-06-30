@@ -4,6 +4,7 @@
     using Banking.Domain.Entity.Customers;
     using System.Threading.Tasks;
     using System.Linq;
+    using Banking.Domain.Entity.Identities;
 
     public class DbInitializer
     {
@@ -17,9 +18,15 @@
 
         public async Task Seed()
         {
-            if (!_context.Customers.Any(p => p.Dni == "44444567"))
+            if (!_context.Customers.Any(p => p.Dni == "00000001"))
             {
-                var newCustomer = new Customer { Id = 1, FirstName = "Henry", LastName = "Fuentes", Dni = "44444567"};
+                var identityUser = new IdentityUser { Email = "admin@test", UserName = "admin",
+                                                      Password = "123456" , Role = "admin"};
+
+                _context.IdentityUsers.Add(identityUser);
+
+                var newCustomer = new Customer { Id = 1, FirstName = "Administrator",
+                                                LastName = "Admin", Dni = "00000001" , IdentityUserId = identityUser.Id};
 
                 _context.Customers.Add(newCustomer);
 

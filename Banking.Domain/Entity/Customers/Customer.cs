@@ -2,6 +2,7 @@
 {
     using Accounts;
     using System.Collections.Generic;
+    using Identities;
 
     public class Customer
     {
@@ -13,6 +14,9 @@
         public string Dni { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public int IdentityUserId { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         public ICollection<BankAccount> BankAccounts { get; set; }
     }
 }
