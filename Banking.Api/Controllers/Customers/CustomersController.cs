@@ -30,6 +30,12 @@
             return Ok(_customerApplicationService.Get(id));
         }
 
+        [HttpGet("dni/{dni}")]
+        public IActionResult Get(string dni)
+        {
+            return Ok(_customerApplicationService.GetByDni(dni));
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]CustomerDto customer)
         {

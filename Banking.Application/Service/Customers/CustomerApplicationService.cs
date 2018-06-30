@@ -34,6 +34,13 @@
             return customerDto;
         }
 
+        public CustomerDto GetByDni(string dni)
+        { 
+            Customer customer = _unitOfWork.Customers.GetByDni(dni);
+            if(customer == null) return  new CustomerDto();
+        
+            return Mapper.Map<CustomerDto>(customer);
+        }
         public IEnumerable<CustomerDto> GetAll()
         {
             return Mapper.Map<IEnumerable<CustomerDto>>(_unitOfWork.Customers.GetAll());
