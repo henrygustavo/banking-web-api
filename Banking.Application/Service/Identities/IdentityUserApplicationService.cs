@@ -40,6 +40,7 @@
             {
                 new Claim("customerId", customerId.ToString()),
                 new Claim("userName", userName),
+                new Claim("role", role),
                 new Claim(ClaimTypes.Role, role)
             };
 

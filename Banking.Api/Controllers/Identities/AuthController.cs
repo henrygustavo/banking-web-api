@@ -18,7 +18,8 @@
         [HttpPost]
         public IActionResult Login([FromBody] CredentialDto credential)
         {
-            return Ok(_identityUserApplicationService.PerformAuthentication(credential));
+            string jwToken = _identityUserApplicationService.PerformAuthentication(credential);
+            return Ok(new { access_token = jwToken });
         }
     }
 }

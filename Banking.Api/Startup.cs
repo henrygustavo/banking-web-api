@@ -71,6 +71,16 @@
                 };
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFromAll",
+                    builder => builder
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin()
+                        .AllowCredentials()
+                        .AllowAnyHeader());
+            });
+
             services.AddAutoMapper();
             services.AddMvc();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"}); });
@@ -88,18 +98,14 @@
             options.DefaultFileNames.Clear();
             options.DefaultFileNames.Add("index.html");
 
-            app.UseMvc()
-                .UseCors(builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials())
+            app.UseCors("AllowFromAll")//always berofe "UseMvc"
+                .UseMvc()
                 .UseDefaultFiles(options)
                 .UseStaticFiles()
                 .UseSwagger()
                 .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
             {
                 seeder.Seed().Wait();
             }

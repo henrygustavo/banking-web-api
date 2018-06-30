@@ -32,7 +32,7 @@
             {
                 Email = "admin@test",
                 UserName = "admin",
-                Password = "123456",
+                Password = "admin",
                 Role = "admin"
             };
 
