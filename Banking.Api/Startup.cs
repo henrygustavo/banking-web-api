@@ -84,8 +84,17 @@
             });
 
             services.AddAutoMapper();
-            services.AddMvc();
-            services.AddSwaggerGen(c =>
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 400));
+                options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 404));
+                options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 500));
+            });
+
+             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "System API", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new ApiKeyScheme()

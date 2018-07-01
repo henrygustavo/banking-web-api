@@ -45,7 +45,7 @@ namespace Banking.Api.Controllers.Common
             {
                 context.Response.ContentType = "application/json";
 
-                var response = new ApiResponse(context.Response.StatusCode, errorMessage);
+                var response = new ErrorResponse(context.Response.StatusCode, errorMessage);
 
                 var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings
                 {
