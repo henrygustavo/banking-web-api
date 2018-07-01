@@ -22,7 +22,6 @@
         [ProducesResponseType(typeof(string), 200)]
         public IActionResult Post([FromBody]BankTransferInputDto bankTransfertransfer)
         {
-
             _transactionApplicationService.PerformTransfer(bankTransfertransfer);
             return Ok("Transfer done!");
            

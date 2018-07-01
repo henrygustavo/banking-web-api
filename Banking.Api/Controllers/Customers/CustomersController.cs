@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Banking.Application.Dto.Common;
-    using Common;
 
     [Produces("application/json")]
     [Route("api/customers")]
