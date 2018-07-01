@@ -5,6 +5,6 @@
 
     public interface IAccountApplicationService : IBaseApplicationService<BankAccountInputDto, BankAccountDto>
     {
-        string GenerateAccountNumber();
+        NewBankAccountDto GenerateAccountNumber();
     }
 }

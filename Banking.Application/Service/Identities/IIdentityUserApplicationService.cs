@@ -4,6 +4,6 @@
 
     public interface IIdentityUserApplicationService
     {
-        string PerformAuthentication(CredentialDto credential);
+        JwTokenDto PerformAuthentication(CredentialDto credential);
     }
 }

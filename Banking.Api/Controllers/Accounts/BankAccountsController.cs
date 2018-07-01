@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Banking.Application.Service.Accounts;
+    using Banking.Application.Dto.Common;
 
     [Produces("application/json")]
     [Route("api/bank-accounts")]
@@ -19,6 +20,7 @@
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(PaginationResultDto), 200)]
         public IActionResult GetAll(int page = 1, int pageSize = 10)
         {
             return Ok(_accountApplicationService.GetAll(page, pageSize));
@@ -26,6 +28,7 @@
 
         // GET: api/Accounts/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BankAccountDto), 200)]
         public IActionResult Get(int id)
         {
             return Ok(_accountApplicationService.Get(id));
@@ -33,6 +36,7 @@
         
         // POST: api/Accounts
         [HttpPost]
+        [ProducesResponseType(typeof(int), 200)]
         public IActionResult Post([FromBody]BankAccountInputDto bankAccount)
         {
             return Ok(_accountApplicationService.Add(bankAccount));
@@ -40,21 +44,17 @@
         
         // PUT: api/Accounts/5
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(int), 200)]
         public IActionResult Put(int id, [FromBody]BankAccountInputDto bankAccount)
         {
             return Ok(_accountApplicationService.Update(id, bankAccount));
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
-        [HttpGet("new-account")]
+        [HttpGet("new-number")]
+        [ProducesResponseType(typeof(NewBankAccountDto), 200)]
         public IActionResult GenerateAccountNumber()
         {
-            return Ok(new { accountNumber =_accountApplicationService.GenerateAccountNumber()});
+            return Ok(_accountApplicationService.GenerateAccountNumber());
         }
     }
 }

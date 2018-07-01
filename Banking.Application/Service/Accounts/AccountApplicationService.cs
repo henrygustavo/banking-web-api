@@ -23,9 +23,9 @@
             return Mapper.Map<BankAccountDto>(_unitOfWork.BankAccounts.GetWithCustomer(id));
         }
 
-        public string GenerateAccountNumber()
+        public NewBankAccountDto GenerateAccountNumber()
         {
-            return _unitOfWork.BankAccounts.GenerateAccountNumber();
+            return new NewBankAccountDto {AccountNumber = _unitOfWork.BankAccounts.GenerateAccountNumber()};
         }
 
         public PaginationResultDto GetAll(int page, int pageSize)
@@ -61,7 +61,7 @@
         {
             var entityObj = _unitOfWork.BankAccounts.Get(id);
 
-            entityObj.IsLocked = entityObj.IsLocked;
+            entityObj.IsLocked = entity.IsLocked;
             _unitOfWork.BankAccounts.Update(entityObj);
 
             return _unitOfWork.Complete();
