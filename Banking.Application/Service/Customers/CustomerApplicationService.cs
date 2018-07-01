@@ -18,36 +18,36 @@
             _unitOfWork = unitOfWork;
         }
 
-        public CustomerDto Get(int id)
+        public CustomerOutputDto Get(int id)
         {
-            return Mapper.Map<CustomerDto>(_unitOfWork.Customers.Get(id));
+            return Mapper.Map<CustomerOutputDto>(_unitOfWork.Customers.Get(id));
         }
 
-        public CustomerIdentityDto GetWithIdentity(int id)
+        public CustomerIdentityOutputDto GetWithIdentity(int id)
         {
             Customer customer = _unitOfWork.Customers.Get(id);
 
-            if (customer == null) return new CustomerIdentityDto();
+            if (customer == null) return new CustomerIdentityOutputDto();
 
             customer.IdentityUser = _unitOfWork.IdentityUsers.Get(customer.IdentityUserId);
             
-            return Mapper.Map<CustomerIdentityDto>(customer); ;
+            return Mapper.Map<CustomerIdentityOutputDto>(customer);
         }
 
-        public CustomerDto GetByDni(string dni)
+        public CustomerOutputDto GetByDni(string dni)
         { 
             Customer customer = _unitOfWork.Customers.GetByDni(dni);
 
-            return customer == null ? new CustomerDto() : Mapper.Map<CustomerDto>(customer);
+            return customer == null ? new CustomerOutputDto() : Mapper.Map<CustomerOutputDto>(customer);
         }
 
-        public PaginationResultDto GetAll(int page, int pageSize)
+        public PaginationOutputDto GetAll(int page, int pageSize)
         {
             var entities = _unitOfWork.Customers.GetAll(page, pageSize, "lastName", "asc").ToList();
 
-            var pagedRecord = new PaginationResultDto
+            var pagedRecord = new PaginationOutputDto
             {
-                Content = Mapper.Map<List<CustomerDto>>(entities),
+                Content = Mapper.Map<List<CustomerOutputDto>>(entities),
                 TotalRecords = _unitOfWork.Customers.CountGetAll(),
                 CurrentPage = page,
                 PageSize = pageSize
@@ -64,7 +64,7 @@
                 Email = entity.Email,
                 Password = entity.Password,
                 Role = "member",
-                Active = true
+                Active = entity.Active
             };
 
             _unitOfWork.IdentityUsers.Add(identityUser);

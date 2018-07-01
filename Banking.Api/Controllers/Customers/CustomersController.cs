@@ -20,21 +20,21 @@
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(PaginationResultDto), 200)]
+        [ProducesResponseType(typeof(PaginationOutputDto), 200)]
         public IActionResult GetAll(int page = 1, int pageSize = 10)
         {
             return Ok(_customerApplicationService.GetAll(page, pageSize));
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(CustomerIdentityDto),200)]
+        [ProducesResponseType(typeof(CustomerIdentityOutputDto),200)]
         public IActionResult Get(int id)
         {
             return Ok(_customerApplicationService.GetWithIdentity(id));
         }
 
         [HttpGet("dni/{dni}")]   
-        [ProducesResponseType(typeof(CustomerDto), 200)]
+        [ProducesResponseType(typeof(CustomerOutputDto), 200)]
         public IActionResult Get(string dni)
         {
             return Ok(_customerApplicationService.GetByDni(dni));

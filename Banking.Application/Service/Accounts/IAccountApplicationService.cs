@@ -3,8 +3,8 @@
     using Banking.Application.Dto.Accounts;
     using Common;
 
-    public interface IAccountApplicationService : IBaseApplicationService<BankAccountInputDto, BankAccountDto>
+    public interface IAccountApplicationService : IBaseApplicationService<BankAccountInputDto, BankAccountOutputDto>
     {
-        NewBankAccountDto GenerateAccountNumber();
+        BankAccountNumberOutputDto GenerateAccountNumber();
     }
 }

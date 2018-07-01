@@ -23,7 +23,7 @@
     using System.Security.Claims;
     using System.Text;
     using System.Collections.Generic;
-
+    using Controllers.Common;
 
     public class Startup
     {
@@ -115,6 +115,7 @@
             options.DefaultFileNames.Add("index.html");
 
             app.UseCors("AllowFromAll")//always berofe "UseMvc"
+                .UseMiddleware(typeof(ErrorWrappingMiddleware))
                 .UseMvc()
                 .UseDefaultFiles(options)
                 .UseStaticFiles()

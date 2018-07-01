@@ -6,7 +6,7 @@
     {
         TEntityOutPut Get(int id);
 
-        PaginationResultDto GetAll(int page, int pageSize);
+        PaginationOutputDto GetAll(int page, int pageSize);
 
         int Add(TEntityInput entity);
 

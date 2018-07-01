@@ -12,11 +12,11 @@
         {
             CreateMap<Customer, CustomerInputDto>().ReverseMap();
 
-            CreateMap<Customer, CustomerDto>()
+            CreateMap<Customer, CustomerOutputDto>()
                 .ForMember(destination => destination.FullName,
                     opts => opts.MapFrom(source => $"{source.LastName} {source.FirstName}"));
 
-            CreateMap<Customer, CustomerIdentityDto>()
+            CreateMap<Customer, CustomerIdentityOutputDto>()
                 .ForMember(destination => destination.UserName,
                     opts => opts.MapFrom(source =>
                         source.IdentityUser != null ? source.IdentityUser.UserName : string.Empty))
@@ -24,7 +24,7 @@
                     opts => opts.MapFrom(source =>
                         source.IdentityUser != null ? source.IdentityUser.Email : string.Empty));
 
-            CreateMap<BankAccount, BankAccountDto>()
+            CreateMap<BankAccount, BankAccountOutputDto>()
                 .ForMember(destination => destination.CustomerFullName,
                     opts => opts.MapFrom(source => source.Customer != null ?
                           source.Customer.Dni : string.Empty))

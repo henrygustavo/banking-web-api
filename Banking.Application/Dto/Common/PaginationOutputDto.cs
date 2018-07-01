@@ -3,7 +3,7 @@
     using System.Collections;
     using System;
 
-    public class PaginationResultDto
+    public class PaginationOutputDto
     {
         public IList Content { get; set; }
 

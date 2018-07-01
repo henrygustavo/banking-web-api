@@ -1,6 +1,6 @@
 ﻿namespace Banking.Application.Dto.Accounts
 {
-    public class NewBankAccountDto
+    public class BankAccountNumberOutputDto
     {
         public string AccountNumber { get; set; }
     }

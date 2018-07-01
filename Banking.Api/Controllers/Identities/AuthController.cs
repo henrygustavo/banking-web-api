@@ -16,8 +16,8 @@
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(JwTokenDto), 200)]
-        public IActionResult Login([FromBody] CredentialDto credential)
+        [ProducesResponseType(typeof(JwTokenOutputDto), 200)]
+        public IActionResult Login([FromBody] CredentialInputDto credential)
         {
             return Ok(_identityUserApplicationService.PerformAuthentication(credential));
         }

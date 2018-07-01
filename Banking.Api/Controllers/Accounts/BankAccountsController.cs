@@ -20,7 +20,7 @@
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(PaginationResultDto), 200)]
+        [ProducesResponseType(typeof(PaginationOutputDto), 200)]
         public IActionResult GetAll(int page = 1, int pageSize = 10)
         {
             return Ok(_accountApplicationService.GetAll(page, pageSize));
@@ -28,7 +28,7 @@
 
         // GET: api/Accounts/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(BankAccountDto), 200)]
+        [ProducesResponseType(typeof(BankAccountOutputDto), 200)]
         public IActionResult Get(int id)
         {
             return Ok(_accountApplicationService.Get(id));
@@ -51,7 +51,7 @@
         }
 
         [HttpGet("new-number")]
-        [ProducesResponseType(typeof(NewBankAccountDto), 200)]
+        [ProducesResponseType(typeof(BankAccountNumberOutputDto), 200)]
         public IActionResult GenerateAccountNumber()
         {
             return Ok(_accountApplicationService.GenerateAccountNumber());

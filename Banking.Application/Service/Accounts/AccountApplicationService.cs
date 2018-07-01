@@ -18,23 +18,23 @@
 
         }
 
-        public BankAccountDto Get(int id)
+        public BankAccountOutputDto Get(int id)
         {
-            return Mapper.Map<BankAccountDto>(_unitOfWork.BankAccounts.GetWithCustomer(id));
+            return Mapper.Map<BankAccountOutputDto>(_unitOfWork.BankAccounts.GetWithCustomer(id));
         }
 
-        public NewBankAccountDto GenerateAccountNumber()
+        public BankAccountNumberOutputDto GenerateAccountNumber()
         {
-            return new NewBankAccountDto {AccountNumber = _unitOfWork.BankAccounts.GenerateAccountNumber()};
+            return new BankAccountNumberOutputDto {AccountNumber = _unitOfWork.BankAccounts.GenerateAccountNumber()};
         }
 
-        public PaginationResultDto GetAll(int page, int pageSize)
+        public PaginationOutputDto GetAll(int page, int pageSize)
         {
             var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "desc").ToList();
 
-            var pagedRecord = new PaginationResultDto
+            var pagedRecord = new PaginationOutputDto
             {
-                Content = Mapper.Map<List<BankAccountDto>>(entities),
+                Content = Mapper.Map<List<BankAccountOutputDto>>(entities),
                 TotalRecords = _unitOfWork.BankAccounts.CountGetAll(),
                 CurrentPage = page,
                 PageSize = pageSize

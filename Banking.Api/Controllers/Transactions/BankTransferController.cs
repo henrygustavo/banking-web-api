@@ -1,10 +1,10 @@
 ﻿namespace Banking.Api.Controllers.Transactions
 {
-    using System.Collections.Generic;
     using Banking.Application.Service.Transactions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
+    using Banking.Application.Dto.Transactions;
 
     [Produces("application/json")]
     [Route("api/bankTransfer")]
@@ -18,11 +18,14 @@
             _transactionApplicationService = transactionApplicationService;
         }
 
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpPost]
+        [ProducesResponseType(typeof(string), 200)]
+        public IActionResult Post([FromBody]BankTransferInputDto bankTransfertransfer)
         {
-            _transactionApplicationService.PerformTransfer();
-            return new string[] { "value1", "value2" };
+
+            _transactionApplicationService.PerformTransfer(bankTransfertransfer);
+            return Ok("Transfer done!");
+           
         }
     }
 }
