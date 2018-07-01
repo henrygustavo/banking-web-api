@@ -5,6 +5,7 @@
     using Customers;
     using Banking.Domain.Entity.Customers;
     using Banking.Domain.Entity.Accounts;
+    using Transactions;
 
     public class MapperProfile : Profile
     {
@@ -33,6 +34,8 @@
                           $"{source.Customer.LastName} {source.Customer.FirstName}" : string.Empty));
 
             CreateMap<BankAccount, BankAccountInputDto>().ReverseMap();
+
+            CreateMap<BankAccount, CustomerBankTransferOtputDto>();
         }
     }
 }

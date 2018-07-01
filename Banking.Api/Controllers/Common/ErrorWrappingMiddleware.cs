@@ -1,6 +1,4 @@
-﻿using Serilog;
-
-namespace Banking.Api.Controllers.Common
+﻿namespace Banking.Api.Controllers.Common
 {
     using System;
     using System.Threading.Tasks;
@@ -8,6 +6,7 @@ namespace Banking.Api.Controllers.Common
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Serilog;
 
     public class ErrorWrappingMiddleware
     {
