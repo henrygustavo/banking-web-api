@@ -30,7 +30,7 @@
 
         public PaginationResultDto GetAll(int page, int pageSize)
         {
-            var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "asc").ToList();
+            var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "desc").ToList();
 
             var pagedRecord = new PaginationResultDto
             {
