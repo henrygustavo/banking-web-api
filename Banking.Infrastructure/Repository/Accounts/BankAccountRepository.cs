@@ -15,7 +15,9 @@
         }
         public string GenerateAccountNumber()
         {
-            return (long.Parse(Context.Set<BankAccount>().Max(p => p.Number)) + 1).ToString();
+            long maxBankAccountNumber = long.Parse(Context.Set<BankAccount>().Max(p => p.Number));
+
+            return maxBankAccountNumber == 0 ? "100000000000000000"  : (maxBankAccountNumber + 1).ToString();
         }
 
         public IEnumerable<BankAccount> GetAllWithCustomers(int pageNumber, int pageSize,
