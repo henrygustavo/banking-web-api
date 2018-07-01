@@ -20,30 +20,25 @@
 
         public CustomerDto Get(int id)
         {
+            return Mapper.Map<CustomerDto>(_unitOfWork.Customers.Get(id));
+        }
+
+        public CustomerIdentityDto GetWithIdentity(int id)
+        {
             Customer customer = _unitOfWork.Customers.Get(id);
 
-            if(customer == null) return  new CustomerDto();
+            if (customer == null) return new CustomerIdentityDto();
 
-            IdentityUser identityUser = _unitOfWork.IdentityUsers.Get(customer.IdentityUserId);
-
-            CustomerDto customerDto =  Mapper.Map<CustomerDto>(customer);
-
-            customerDto.UserName = identityUser.UserName;
-            customerDto.Email = identityUser.Email;
-
-            return customerDto;
+            customer.IdentityUser = _unitOfWork.IdentityUsers.Get(customer.IdentityUserId);
+            
+            return Mapper.Map<CustomerIdentityDto>(customer); ;
         }
 
         public CustomerDto GetByDni(string dni)
         { 
             Customer customer = _unitOfWork.Customers.GetByDni(dni);
-            if(customer == null) return  new CustomerDto();
-        
-            return Mapper.Map<CustomerDto>(customer);
-        }
-        public IEnumerable<CustomerDto> GetAll()
-        {
-            return Mapper.Map<IEnumerable<CustomerDto>>(_unitOfWork.Customers.GetAll());
+
+            return customer == null ? new CustomerDto() : Mapper.Map<CustomerDto>(customer);
         }
 
         public PaginationResultDto GetAll(int page, int pageSize)
@@ -61,14 +56,15 @@
             return pagedRecord;
         }
 
-        public int Add(CustomerDto entity)
+        public int Add(CustomerInputDto entity)
         {
             var identityUser = new IdentityUser
             {
                 UserName = entity.UserName,
                 Email = entity.Email,
                 Password = entity.Password,
-                Role = "member"
+                Role = "member",
+                Active = true
             };
 
             _unitOfWork.IdentityUsers.Add(identityUser);
@@ -84,23 +80,22 @@
             return entityObj.Id;
         }
 
-        public int Update(int id, CustomerDto entity)
+        public int Update(int id, CustomerInputDto entity)
         {
             var entityObj = _unitOfWork.Customers.Get(id);
 
             entityObj.FirstName = entity.FirstName;
             entityObj.LastName = entity.LastName;
+            entityObj.Active = entity.Active;
+            entityObj.IdentityUser = _unitOfWork.IdentityUsers.Get(entityObj.IdentityUserId);
+
+            if(entityObj.IdentityUser != null)
+            entityObj.IdentityUser.Active = entity.Active;
 
             _unitOfWork.Customers.Update(entityObj);
             _unitOfWork.Complete();
 
             return entityObj.Id;
-        }
-        public int Remove(int id)
-        {
-            var entity = _unitOfWork.Customers.Get(id);
-            _unitOfWork.Customers.Remove(entity);
-            return _unitOfWork.Complete();
         }
     }
 }

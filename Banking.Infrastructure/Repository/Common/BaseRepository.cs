@@ -28,7 +28,7 @@
         }
 
         public IEnumerable<TEntity> GetAll(int pageNumber, int pageSize,
-                                        string orderBy, string orderDirection)
+                                           string orderBy, string orderDirection)
         {
 
             var skip = (pageNumber - 1) * pageSize;

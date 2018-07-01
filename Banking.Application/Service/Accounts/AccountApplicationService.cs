@@ -20,17 +20,17 @@
 
         public BankAccountDto Get(int id)
         {
-            return Mapper.Map<BankAccountDto>(_unitOfWork.BankAccounts.Get(id));
+            return Mapper.Map<BankAccountDto>(_unitOfWork.BankAccounts.GetWithCustomer(id));
         }
 
-        public IEnumerable<BankAccountDto> GetAll()
+        public string GenerateAccountNumber()
         {
-            return Mapper.Map<IEnumerable<BankAccountDto>>(_unitOfWork.BankAccounts.GetAll());
+            return _unitOfWork.BankAccounts.GenerateAccountNumber();
         }
 
         public PaginationResultDto GetAll(int page, int pageSize)
         {
-            var entities = _unitOfWork.Customers.GetAll(page, pageSize, "number", "asc").ToList();
+            var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "asc").ToList();
 
             var pagedRecord = new PaginationResultDto
             {
@@ -43,24 +43,27 @@
             return pagedRecord;
         }
 
-        public int Add(BankAccountDto entity)
+        public int Add(BankAccountInputDto entity)
         {
-            _unitOfWork.BankAccounts.Add(Mapper.Map<BankAccount>(entity));
+            var customer = _unitOfWork.Customers.GetByIdWithBankAccounts(entity.CustomerId);
+
+            customer.BankAccounts.Add(new BankAccount
+            {
+                Number = entity.Number,
+                Balance = 0,
+                IsLocked = entity.IsLocked
+            });
+
             return _unitOfWork.Complete();
         }
 
-        public int Update(int id, BankAccountDto entity)
+        public int Update(int id, BankAccountInputDto entity)
         {
             var entityObj = _unitOfWork.BankAccounts.Get(id);
 
+            entityObj.IsLocked = entityObj.IsLocked;
             _unitOfWork.BankAccounts.Update(entityObj);
-            return _unitOfWork.Complete();
-        }
 
-        public int Remove(int id)
-        {
-            var entity = _unitOfWork.Customers.Get(id);
-            _unitOfWork.Customers.Remove(entity);
             return _unitOfWork.Complete();
         }
     }

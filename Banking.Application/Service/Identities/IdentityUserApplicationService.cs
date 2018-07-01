@@ -23,12 +23,15 @@
         {
             var identityUser = _unitOfWork.IdentityUsers.GetByUserName(credential.UserName);
 
-            if (identityUser.HasValidCredentials(credential.UserName, credential.Password))
-            {
-                return BuildToken(identityUser.Customer.Id, identityUser.UserName, identityUser.Role);
-            }
+            if(identityUser == null) return string.Empty;
 
-            return string.Empty;
+            if (!identityUser.Active) return string.Empty;
+
+            if (!identityUser.HasValidCredentials(credential.UserName, credential.Password)) return string.Empty;
+
+            int customerId = identityUser.Customer?.Id ?? 0;
+       
+            return BuildToken(customerId, identityUser.UserName, identityUser.Role);
         }
 
         private string BuildToken(int customerId, string userName, string role)

@@ -10,7 +10,7 @@
 
         public  string Role { get; set; }
         public  string Password { get; set; }
-
+        public bool Active { get; set; }
         public Customer Customer { get; set; }
 
         public bool HasValidCredentials(string userName, string password)
