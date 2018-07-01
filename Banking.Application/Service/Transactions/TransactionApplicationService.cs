@@ -1,6 +1,8 @@
 ﻿namespace Banking.Application.Service.Transactions
 {
     using Domain.Repository.Common;
+    using Banking.Application.Dto.Transactions;
+    using System;
 
     public class TransactionApplicationService: ITransactionApplicationService
     {
@@ -11,11 +13,23 @@
             _unitOfWork = unitOfWork;
         }
 
-        public void PerformTransfer()
+        public void PerformTransfer(BankTransferInputDto bankTransfertransfer)
         {
-            //var customers = _unitOfWork.Customers.GetByIdWithBankAccounts(1);
-            //var bankAccounts = _unitOfWork.BankAccounts.Get(1);
+            Notification.Common.Notification notification = Validation(bankTransfertransfer);
 
+            if (notification.HasErrors())
+            {
+                throw new ArgumentException(notification.ErrorMessage());
+            }
+        }
+
+        private Notification.Common.Notification Validation(BankTransferInputDto bankTransfertransfer)
+        {
+            Notification.Common.Notification notification = new Notification.Common.Notification();
+
+            if (bankTransfertransfer != null) return notification;
+            notification.AddError("Invalid JSON data in request body.");
+            return notification;
         }
     }
 }

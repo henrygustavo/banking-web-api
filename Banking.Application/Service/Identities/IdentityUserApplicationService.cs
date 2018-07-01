@@ -19,16 +19,19 @@
             _config = config;
         }
 
-        public string PerformAuthentication(CredentialDto credential)
+        public JwTokenOutputDto PerformAuthentication(CredentialInputDto credential)
         {
             var identityUser = _unitOfWork.IdentityUsers.GetByUserName(credential.UserName);
 
-            if (identityUser.HasValidCredentials(credential.UserName, credential.Password))
-            {
-                return BuildToken(identityUser.Customer.Id, identityUser.UserName, identityUser.Role);
-            }
+            if(identityUser == null) return new JwTokenOutputDto();
 
-            return string.Empty;
+            if (!identityUser.Active) return new JwTokenOutputDto();
+
+            if (!identityUser.HasValidCredentials(credential.UserName, credential.Password)) return new JwTokenOutputDto();
+
+            int customerId = identityUser.Customer?.Id ?? 0;
+
+            return new JwTokenOutputDto { access_token = BuildToken(customerId, identityUser.UserName, identityUser.Role) };
         }
 
         private string BuildToken(int customerId, string userName, string role)

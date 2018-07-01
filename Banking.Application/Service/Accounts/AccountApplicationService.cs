@@ -18,23 +18,23 @@
 
         }
 
-        public BankAccountDto Get(int id)
+        public BankAccountOutputDto Get(int id)
         {
-            return Mapper.Map<BankAccountDto>(_unitOfWork.BankAccounts.Get(id));
+            return Mapper.Map<BankAccountOutputDto>(_unitOfWork.BankAccounts.GetWithCustomer(id));
         }
 
-        public IEnumerable<BankAccountDto> GetAll()
+        public BankAccountNumberOutputDto GenerateAccountNumber()
         {
-            return Mapper.Map<IEnumerable<BankAccountDto>>(_unitOfWork.BankAccounts.GetAll());
+            return new BankAccountNumberOutputDto {AccountNumber = _unitOfWork.BankAccounts.GenerateAccountNumber()};
         }
 
-        public PaginationResultDto GetAll(int page, int pageSize)
+        public PaginationOutputDto GetAll(int page, int pageSize)
         {
-            var entities = _unitOfWork.Customers.GetAll(page, pageSize, "number", "asc").ToList();
+            var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "desc").ToList();
 
-            var pagedRecord = new PaginationResultDto
+            var pagedRecord = new PaginationOutputDto
             {
-                Content = Mapper.Map<List<BankAccountDto>>(entities),
+                Content = Mapper.Map<List<BankAccountOutputDto>>(entities),
                 TotalRecords = _unitOfWork.BankAccounts.CountGetAll(),
                 CurrentPage = page,
                 PageSize = pageSize
@@ -43,24 +43,27 @@
             return pagedRecord;
         }
 
-        public int Add(BankAccountDto entity)
+        public int Add(BankAccountInputDto entity)
         {
-            _unitOfWork.BankAccounts.Add(Mapper.Map<BankAccount>(entity));
+            var customer = _unitOfWork.Customers.GetByIdWithBankAccounts(entity.CustomerId);
+
+            customer.BankAccounts.Add(new BankAccount
+            {
+                Number = entity.Number,
+                Balance = 0,
+                IsLocked = entity.IsLocked
+            });
+
             return _unitOfWork.Complete();
         }
 
-        public int Update(int id, BankAccountDto entity)
+        public int Update(int id, BankAccountInputDto entity)
         {
             var entityObj = _unitOfWork.BankAccounts.Get(id);
 
+            entityObj.IsLocked = entity.IsLocked;
             _unitOfWork.BankAccounts.Update(entityObj);
-            return _unitOfWork.Complete();
-        }
 
-        public int Remove(int id)
-        {
-            var entity = _unitOfWork.Customers.Get(id);
-            _unitOfWork.Customers.Remove(entity);
             return _unitOfWork.Complete();
         }
     }

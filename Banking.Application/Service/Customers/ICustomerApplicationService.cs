@@ -3,8 +3,10 @@
     using Banking.Application.Dto.Customers;
     using Common;
 
-    public interface ICustomerApplicationService : IBaseApplicationService<CustomerDto>
+    public interface ICustomerApplicationService : IBaseApplicationService<CustomerInputDto, CustomerOutputDto>
     {
-        CustomerDto GetByDni(string dni);
+        CustomerOutputDto GetByDni(string dni);
+
+        CustomerIdentityOutputDto GetWithIdentity(int id);
     }
 }

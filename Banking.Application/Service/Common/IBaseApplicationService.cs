@@ -1,19 +1,16 @@
 ﻿namespace Banking.Application.Service.Common
 {
-    using System.Collections.Generic;
     using Banking.Application.Dto.Common;
 
-    public interface IBaseApplicationService<TEntity>  where TEntity : class
+    public interface IBaseApplicationService<TEntityInput , TEntityOutPut>
     {
-        TEntity Get(int id);
-        IEnumerable<TEntity> GetAll();
+        TEntityOutPut Get(int id);
 
-        PaginationResultDto GetAll(int page = 1, int pageSize = 10);
+        PaginationOutputDto GetAll(int page, int pageSize);
 
-        int Add(TEntity entity);
+        int Add(TEntityInput entity);
 
-        int Update(int id, TEntity entity);
+        int Update(int id, TEntityInput entity);
 
-        int Remove(int id);
     }
 }

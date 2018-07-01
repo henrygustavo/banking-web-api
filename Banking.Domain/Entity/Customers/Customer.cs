@@ -14,7 +14,7 @@
         public string Dni { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
+        public  bool Active { get; set; }
         public int IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
         public ICollection<BankAccount> BankAccounts { get; set; }

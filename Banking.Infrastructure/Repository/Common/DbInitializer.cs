@@ -26,28 +26,18 @@
 
         public void SeedAdmin()
         {
-            if (_context.Customers.Any(p => p.Dni == "00000001")) return;
+            if (_context.IdentityUsers.Any(p => p.UserName == "admin")) return;
 
             var identityUser = new IdentityUser
             {
                 Email = "admin@test",
                 UserName = "admin",
                 Password = "admin",
-                Role = "admin"
+                Role = "admin",
+                Active = true
             };
 
             _context.IdentityUsers.Add(identityUser);
-
-            var newCustomer = new Customer
-            {
-                Id = 1,
-                FirstName = "Administrator",
-                LastName = "Admin",
-                Dni = "00000001",
-                IdentityUserId = identityUser.Id
-            };
-
-            _context.Customers.Add(newCustomer);
         }
 
         public void SeedMembersOne()
@@ -59,7 +49,8 @@
                 Email = "henrygustavof@gmail.com",
                 UserName = "henrygustavo",
                 Password = "123456",
-                Role = "member"
+                Role = "member",
+                Active = true
             };
 
             _context.IdentityUsers.Add(identityUser);
@@ -70,7 +61,8 @@
                 FirstName = "Henry",
                 LastName = "Fuentes",
                 Dni = "44444568",
-                IdentityUserId = identityUser.Id
+                IdentityUserId = identityUser.Id,
+                Active = true
             };
 
             _context.Customers.Add(newCustomer);
@@ -80,7 +72,7 @@
                 Customer = newCustomer,
                 Balance = 0,
                 IsLocked = false,
-                Number = "1234567890"
+                Number = "100000000000000000"
             });
         }
 
@@ -93,7 +85,8 @@
                 Email = "juanPerez@gmail.com",
                 UserName = "juanperez",
                 Password = "123456",
-                Role = "member"
+                Role = "member",
+                Active = true
             };
 
             _context.IdentityUsers.Add(identityUser);
@@ -104,7 +97,8 @@
                 FirstName = "Juan",
                 LastName = "Perez",
                 Dni = "44444569",
-                IdentityUserId = identityUser.Id
+                IdentityUserId = identityUser.Id,
+                Active = true
             };
 
             _context.Customers.Add(newCustomer);
@@ -114,7 +108,7 @@
                 Customer = newCustomer,
                 Balance = 0,
                 IsLocked = false,
-                Number = "1234567899"
+                Number = "100000000000000001"
             });
         }
     }

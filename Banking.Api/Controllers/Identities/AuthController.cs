@@ -1,8 +1,8 @@
-﻿namespace Banking.Api.Controllers.Customers
+﻿namespace Banking.Api.Controllers.Identities
 {
-    using Microsoft.AspNetCore.Mvc;
     using Banking.Application.Dto.Identities;
     using Banking.Application.Service.Identities;
+    using Microsoft.AspNetCore.Mvc;
 
     [Produces("application/json")]
     [Route("api/auth")]
@@ -16,10 +16,10 @@
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] CredentialDto credential)
+        [ProducesResponseType(typeof(JwTokenOutputDto), 200)]
+        public IActionResult Login([FromBody] CredentialInputDto credential)
         {
-            string jwToken = _identityUserApplicationService.PerformAuthentication(credential);
-            return Ok(new { access_token = jwToken });
+            return Ok(_identityUserApplicationService.PerformAuthentication(credential));
         }
     }
 }
