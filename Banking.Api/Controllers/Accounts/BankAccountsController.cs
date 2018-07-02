@@ -8,7 +8,7 @@
     using Banking.Application.Dto.Common;
 
     [Produces("application/json")]
-    [Route("api/bank-accounts")]
+    [Route("api/bankAccounts")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrator")]
     public class BankAccountsController : Controller
     {
@@ -52,7 +52,7 @@
             return Ok("bank account was updated successfully");
         }
 
-        [HttpGet("new-number")]
+        [HttpGet("newNumber")]
         [ProducesResponseType(typeof(BankAccountNumberOutputDto), 200)]
         public IActionResult GenerateAccountNumber()
         {
