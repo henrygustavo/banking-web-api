@@ -8,6 +8,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Banking.Application.Service.Customers;
+    using Banking.Application.Dto.Accounts;
+    using Banking.Application.Service.Accounts;
 
     [Produces("application/json")]
     [Route("api/bankTransfers")]
@@ -16,12 +18,15 @@
     {
         private readonly ITransactionApplicationService _transactionApplicationService;
         private readonly ICustomerApplicationService _customerApplicationService;
+        private readonly IAccountApplicationService _accountApplicationService;
 
         public BankTransferController(ITransactionApplicationService transactionApplicationService,
-                                      ICustomerApplicationService customerApplicationService)
+                                      ICustomerApplicationService customerApplicationService,
+                                      IAccountApplicationService accountApplicationService)
         {
             _transactionApplicationService = transactionApplicationService;
             _customerApplicationService = customerApplicationService;
+            _accountApplicationService = accountApplicationService;
         }
 
         [HttpGet]
@@ -33,6 +38,14 @@
             if (clientId == null) return BadRequest("something went wrong with the credentials");
 
             return Ok(_customerApplicationService.GetBankTransfersById(int.Parse(clientId.Value)));
+        }
+
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BankAccountNumberOutputDto), 200)]
+        public IActionResult GetAccountNumberById(int id)
+        {
+            return Ok(_accountApplicationService.GetAccountNumber(id));
         }
 
         [HttpPost]

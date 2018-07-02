@@ -28,6 +28,11 @@
             return new BankAccountNumberOutputDto {AccountNumber = _unitOfWork.BankAccounts.GenerateAccountNumber()};
         }
 
+        public BankAccountNumberOutputDto GetAccountNumber(int id)
+        {
+            return new BankAccountNumberOutputDto { AccountNumber = _unitOfWork.BankAccounts.Get(id).Number };
+        }
+
         public PaginationOutputDto GetAll(int page, int pageSize)
         {
             var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "desc").ToList();

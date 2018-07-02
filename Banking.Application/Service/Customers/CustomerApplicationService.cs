@@ -27,7 +27,7 @@
         public List<CustomerBankTransferOtputDto>  GetBankTransfersById(int id)
         {
             var customer = _unitOfWork.Customers.GetByIdWithBankAccounts(id);
-            if (customer.BankAccounts != null) return new List<CustomerBankTransferOtputDto>();
+            if (customer.BankAccounts == null) return new List<CustomerBankTransferOtputDto>();
 
             return Mapper.Map<List<CustomerBankTransferOtputDto>>(customer.BankAccounts);
         }
