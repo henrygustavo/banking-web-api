@@ -70,7 +70,7 @@
             _context.BankAccounts.Add(new BankAccount
             {
                 Customer = newCustomer,
-                Balance = 0,
+                Balance = 1000,
                 IsLocked = false,
                 Number = "100000000000000000"
             });
@@ -106,7 +106,7 @@
             _context.BankAccounts.Add(new BankAccount
             {
                 Customer = newCustomer,
-                Balance = 0,
+                Balance = 1000,
                 IsLocked = false,
                 Number = "100000000000000001"
             });

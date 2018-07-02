@@ -1,4 +1,4 @@
-﻿namespace Banking.Application.Notification.Common
+﻿namespace Banking.Application.Notification
 {
     using System;
 

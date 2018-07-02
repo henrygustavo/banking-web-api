@@ -5,10 +5,12 @@
     using Application.Service.Identities;
     using Application.Service.Transactions;
     using AutoMapper;
+    using Controllers.Common;
     using Domain.Repository.Accounts;
     using Domain.Repository.Common;
     using Domain.Repository.Customers;
     using Domain.Repository.Identities;
+    using Domain.Service.Transactions;
     using Infrastructure.Repository.Accounts;
     using Infrastructure.Repository.Common;
     using Infrastructure.Repository.Customers;
@@ -20,10 +22,9 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Swashbuckle.AspNetCore.Swagger;
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Text;
-    using System.Collections.Generic;
-    using Controllers.Common;
 
     public class Startup
     {
@@ -49,6 +50,9 @@
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<IIdentityUserRepository, IdentityUserRepository>();
+
+            services.AddScoped<ITransferDomainService, TransferDomainService>();
+
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

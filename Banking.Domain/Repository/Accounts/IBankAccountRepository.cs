@@ -12,5 +12,7 @@
             string orderBy, string orderDirection);
 
         BankAccount GetWithCustomer(int id);
+
+        BankAccount GetByNumber(string accountNumber);
     }
 }

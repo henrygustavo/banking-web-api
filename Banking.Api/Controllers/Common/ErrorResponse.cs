@@ -12,7 +12,7 @@
         public ErrorResponse(int statusCode, string message = null)
         {
             StatusCode = statusCode;
-            Message = message ?? GetDefaultMessageForStatusCode(statusCode);
+            Message = string.IsNullOrEmpty(message) ? GetDefaultMessageForStatusCode(statusCode) : message;
         }
 
         private static string GetDefaultMessageForStatusCode(int statusCode)
