@@ -55,7 +55,7 @@
             customer.BankAccounts.Add(new BankAccount
             {
                 Number = entity.Number,
-                Balance = 0,
+                Balance = 1000,//just for demo
                 IsLocked = entity.IsLocked
             });
 
