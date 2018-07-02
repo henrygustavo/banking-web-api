@@ -25,4 +25,8 @@
     <None Remove="Service\Customers\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Banking.Application.Notification\Banking.Application.Notification.csproj" />
+  </ItemGroup>
+
 </Project>

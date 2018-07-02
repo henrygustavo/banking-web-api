@@ -4,6 +4,6 @@
 
     public interface ITransactionApplicationService
     {
-       void PerformTransfer(BankTransferInputDto bankTransfertransfer);
+       void PerformTransfer(BankTransferInputDto bankTransfer);
     }
 }

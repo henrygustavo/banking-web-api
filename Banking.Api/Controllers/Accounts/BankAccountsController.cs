@@ -8,7 +8,7 @@
     using Banking.Application.Dto.Common;
 
     [Produces("application/json")]
-    [Route("api/bank-accounts")]
+    [Route("api/bankAccounts")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrator")]
     public class BankAccountsController : Controller
     {
@@ -36,21 +36,23 @@
         
         // POST: api/Accounts
         [HttpPost]
-        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(string), 200)]
         public IActionResult Post([FromBody]BankAccountInputDto bankAccount)
         {
-            return Ok(_accountApplicationService.Add(bankAccount));
+            _accountApplicationService.Add(bankAccount);
+            return Ok("bank account was added successfully");
         }
         
         // PUT: api/Accounts/5
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(string), 200)]
         public IActionResult Put(int id, [FromBody]BankAccountInputDto bankAccount)
         {
-            return Ok(_accountApplicationService.Update(id, bankAccount));
+            _accountApplicationService.Update(id, bankAccount);
+            return Ok("bank account was updated successfully");
         }
 
-        [HttpGet("new-number")]
+        [HttpGet("newNumber")]
         [ProducesResponseType(typeof(BankAccountNumberOutputDto), 200)]
         public IActionResult GenerateAccountNumber()
         {

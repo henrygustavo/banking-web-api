@@ -41,17 +41,19 @@
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(string), 200)]
         public IActionResult Post([FromBody]CustomerInputDto customer)
         {
-            return Ok(_customerApplicationService.Add(customer));
+            _customerApplicationService.Add(customer);
+            return Ok("customer was added sucessfully");
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(string), 200)]
         public IActionResult Put(int id, [FromBody]CustomerInputDto customer)
         {
-            return Ok(_customerApplicationService.Update(id, customer));
+            _customerApplicationService.Update(id, customer);
+            return Ok("customer was updated sucessfully");
         }
     }
 }

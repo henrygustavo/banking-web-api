@@ -1,6 +1,4 @@
-﻿using Serilog;
-
-namespace Banking.Api.Controllers.Common
+﻿namespace Banking.Api.Controllers.Common
 {
     using System;
     using System.Threading.Tasks;
@@ -8,6 +6,7 @@ namespace Banking.Api.Controllers.Common
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Serilog;
 
     public class ErrorWrappingMiddleware
     {
@@ -45,7 +44,7 @@ namespace Banking.Api.Controllers.Common
             {
                 context.Response.ContentType = "application/json";
 
-                var response = new ApiResponse(context.Response.StatusCode, errorMessage);
+                var response = new ErrorResponse(context.Response.StatusCode, errorMessage);
 
                 var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings
                 {

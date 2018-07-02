@@ -36,5 +36,10 @@
                 .Include(p => p.Customer)
                 .FirstOrDefault();
         }
+
+        public BankAccount GetByNumber(string accountNumber)
+        {
+            return Context.Set<BankAccount>().FirstOrDefault(s => s.Number == accountNumber);
+        }
     }
 }

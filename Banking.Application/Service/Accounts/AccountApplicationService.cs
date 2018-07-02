@@ -28,6 +28,11 @@
             return new BankAccountNumberOutputDto {AccountNumber = _unitOfWork.BankAccounts.GenerateAccountNumber()};
         }
 
+        public BankAccountNumberOutputDto GetAccountNumber(int id)
+        {
+            return new BankAccountNumberOutputDto { AccountNumber = _unitOfWork.BankAccounts.Get(id).Number };
+        }
+
         public PaginationOutputDto GetAll(int page, int pageSize)
         {
             var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "desc").ToList();
@@ -50,7 +55,7 @@
             customer.BankAccounts.Add(new BankAccount
             {
                 Number = entity.Number,
-                Balance = 0,
+                Balance = 1000,//just for demo
                 IsLocked = entity.IsLocked
             });
 

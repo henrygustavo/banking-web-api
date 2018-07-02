@@ -8,6 +8,7 @@
     using System.Linq;
     using Banking.Application.Dto.Common;
     using Banking.Domain.Entity.Identities;
+    using Banking.Application.Dto.Transactions;
 
     public class CustomerApplicationService : ICustomerApplicationService
     {
@@ -23,6 +24,14 @@
             return Mapper.Map<CustomerOutputDto>(_unitOfWork.Customers.Get(id));
         }
 
+        public List<CustomerBankTransferOtputDto>  GetBankTransfersById(int id)
+        {
+            var customer = _unitOfWork.Customers.GetByIdWithBankAccounts(id);
+            if (customer.BankAccounts == null) return new List<CustomerBankTransferOtputDto>();
+
+            return Mapper.Map<List<CustomerBankTransferOtputDto>>(customer.BankAccounts);
+        }
+        
         public CustomerIdentityOutputDto GetWithIdentity(int id)
         {
             Customer customer = _unitOfWork.Customers.Get(id);

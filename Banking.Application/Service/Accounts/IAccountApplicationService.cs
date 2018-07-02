@@ -6,5 +6,7 @@
     public interface IAccountApplicationService : IBaseApplicationService<BankAccountInputDto, BankAccountOutputDto>
     {
         BankAccountNumberOutputDto GenerateAccountNumber();
+
+        BankAccountNumberOutputDto GetAccountNumber(int id);
     }
 }

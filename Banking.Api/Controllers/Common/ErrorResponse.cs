@@ -2,24 +2,23 @@
 {
     using Newtonsoft.Json;
 
-    public class ApiResponse
+    public class ErrorResponse
     {
         public int StatusCode { get; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Message { get; }
 
-        public ApiResponse(int statusCode, string message = null)
+        public ErrorResponse(int statusCode, string message = null)
         {
             StatusCode = statusCode;
-            Message = message ?? GetDefaultMessageForStatusCode(statusCode);
+            Message = string.IsNullOrEmpty(message) ? GetDefaultMessageForStatusCode(statusCode) : message;
         }
 
         private static string GetDefaultMessageForStatusCode(int statusCode)
         {
             switch (statusCode)
             {
-
                 case 400:
                     return "Bad Request";
                 case 404:
@@ -27,7 +26,7 @@
                 case 500:
                     return "An unknown error has occurred, please try later";
                 default:
-                    return null;
+                    return "An unknown error has occurred";
             }
         }
     }
