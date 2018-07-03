@@ -13,6 +13,20 @@
         public bool Active { get; set; }
         public Customer Customer { get; set; }
 
+        public IdentityUser()
+        {
+
+        }
+
+        public IdentityUser(string userName, string email, string password, bool active, string role)
+        {
+            UserName = userName;
+            Email = email;
+            Password = password;
+            Role = role;
+            Active = active;
+        }
+
         public bool HasValidCredentials(string userName, string password)
         {
             return UserName == userName && Password == password;

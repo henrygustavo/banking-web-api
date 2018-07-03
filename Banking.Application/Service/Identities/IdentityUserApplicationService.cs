@@ -8,6 +8,8 @@
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.Extensions.Configuration;
     using System.Security.Claims;
+    using  Notification;
+    using Banking.Domain.Entity.Identities;
 
     public class IdentityUserApplicationService: IIdentityUserApplicationService
     {
@@ -23,11 +25,12 @@
         {
             var identityUser = _unitOfWork.IdentityUsers.GetByUserName(credential.UserName);
 
-            if(identityUser == null) return new JwTokenOutputDto();
+            Notification notification = Validation(credential, identityUser);
 
-            if (!identityUser.Active) return new JwTokenOutputDto();
-
-            if (!identityUser.HasValidCredentials(credential.UserName, credential.Password)) return new JwTokenOutputDto();
+            if (notification.HasErrors())
+            {
+                throw new ArgumentException(notification.ErrorMessage());
+            }
 
             int customerId = identityUser.Customer?.Id ?? 0;
 
@@ -54,6 +57,31 @@
                 claims: claims);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private Notification Validation(CredentialInputDto credential, IdentityUser identityUser)
+        {
+            Notification notification = new Notification();
+
+            if (identityUser == null)
+            {
+                notification.AddError("Your account doesn´t exists");
+                return notification;
+            }
+
+            if (!identityUser.HasValidCredentials(credential.UserName, credential.Password))
+            {
+                notification.AddError("Your credential are not correct");
+                return notification;
+            }
+
+            if (!identityUser.Active)
+            {
+                notification.AddError("Your account is not actived, please reach out the web master.");
+                return notification;
+            }
+
+            return notification;
         }
     }
 }

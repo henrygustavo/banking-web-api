@@ -1,22 +1,31 @@
 ﻿namespace Banking.Application.Service.Customers
 {
     using AutoMapper;
+    using Banking.Application.Dto.Common;
     using Banking.Application.Dto.Customers;
+    using Banking.Application.Dto.Transactions;
     using Banking.Domain.Entity.Customers;
     using Banking.Domain.Repository.Common;
+    using Banking.Domain.Service.Identities;
+    using Notification;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Banking.Application.Dto.Common;
-    using Banking.Domain.Entity.Identities;
-    using Banking.Application.Dto.Transactions;
+    using Banking.Domain.Service.Customers;
 
     public class CustomerApplicationService : ICustomerApplicationService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IIdentityUserDomainService _identityUserDomainService;
 
-        public CustomerApplicationService(IUnitOfWork unitOfWork)
+        private readonly ICustomerDomainService _customerDomainService;
+        public CustomerApplicationService(IUnitOfWork unitOfWork,
+            IIdentityUserDomainService identityUserDomainService,
+            ICustomerDomainService customerDomainServic)
         {
             _unitOfWork = unitOfWork;
+            _identityUserDomainService = identityUserDomainService;
+            _customerDomainService = customerDomainServic;
         }
 
         public CustomerOutputDto Get(int id)
@@ -67,44 +76,63 @@
 
         public int Add(CustomerInputDto entity)
         {
-            var identityUser = new IdentityUser
+            Notification notification = Validation(entity);
+
+            if (notification.HasErrors())
             {
-                UserName = entity.UserName,
-                Email = entity.Email,
-                Password = entity.Password,
-                Role = "member",
-                Active = entity.Active
-            };
+                throw new ArgumentException(notification.ErrorMessage());
+            }
 
-            _unitOfWork.IdentityUsers.Add(identityUser);
+            var searchedIdentityUserByEmail = _unitOfWork.IdentityUsers.GetByEmail(entity.Email);
 
-            var entityObj = Mapper.Map<Customer>(entity);
+            var searchedIdentityUserByUserName = _unitOfWork.IdentityUsers.GetByUserName(entity.UserName);
 
-            entityObj.IdentityUserId = identityUser.Id;
+            var newIdentityUser =  _identityUserDomainService.PerformNewUser(entity.UserName, entity.Email, entity.Password,
+                                     entity.Active, searchedIdentityUserByEmail, searchedIdentityUserByUserName);
 
-            _unitOfWork.Customers.Add(entityObj);
+            _unitOfWork.IdentityUsers.Add(newIdentityUser);
+
+            var customer = Mapper.Map<Customer>(entity);
+
+            var searchedCustomerByDni = _unitOfWork.Customers.GetByDni(entity.Dni);
+
+            _customerDomainService.PerformNewCustomer(customer, searchedCustomerByDni, newIdentityUser.Id);
+            
+            _unitOfWork.Customers.Add(customer);
            
             _unitOfWork.Complete();
 
-            return entityObj.Id;
+            return customer.Id;
         }
 
         public int Update(int id, CustomerInputDto entity)
         {
-            var entityObj = _unitOfWork.Customers.Get(id);
+            Notification notification = Validation(entity);
 
-            entityObj.FirstName = entity.FirstName;
-            entityObj.LastName = entity.LastName;
-            entityObj.Active = entity.Active;
-            entityObj.IdentityUser = _unitOfWork.IdentityUsers.Get(entityObj.IdentityUserId);
+            if (notification.HasErrors())
+            {
+                throw new ArgumentException(notification.ErrorMessage());
+            }
 
-            if(entityObj.IdentityUser != null)
-            entityObj.IdentityUser.Active = entity.Active;
+            var customer = _unitOfWork.Customers.Get(id);
 
-            _unitOfWork.Customers.Update(entityObj);
+            var identityUser = _unitOfWork.IdentityUsers.Get(customer.IdentityUserId);
+
+            _customerDomainService.PerformUpdateCustomer(customer, entity.FirstName, entity.LastName,
+                                                         entity.Active, identityUser);
+            _unitOfWork.Customers.Update(customer);
             _unitOfWork.Complete();
 
-            return entityObj.Id;
+            return customer.Id;
+        }
+
+        private Notification Validation(CustomerInputDto entity)
+        {
+            Notification notification = new Notification();
+
+            if (entity != null) return notification;
+            notification.AddError("Invalid JSON data in request body.");
+            return notification;
         }
     }
 }
