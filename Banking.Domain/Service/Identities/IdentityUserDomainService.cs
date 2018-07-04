@@ -49,7 +49,7 @@
 
             if (!identityUser.HasValidCredentials(loginUserName, loginPassword))
             {
-                notification.AddError("Your credential are not correct");
+                notification.AddError("Your credentials are not correct");
                 return notification;
             }
 

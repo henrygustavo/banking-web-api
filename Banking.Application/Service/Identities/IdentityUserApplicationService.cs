@@ -41,8 +41,22 @@
         {
             Notification notification = new Notification();
 
-            if (credential != null) return notification;
-            notification.AddError("Invalid JSON data in request body.");
+            if (credential == null)
+            {
+                notification.AddError("Invalid JSON data in request body.");
+                return notification;
+            }
+
+            if (string.IsNullOrEmpty(credential.UserName))
+            {
+                notification.AddError("UserName is missing");
+            }
+
+            if (string.IsNullOrEmpty(credential.Password))
+            {
+                notification.AddError("Password is missing");
+            }
+
             return notification;
         }
     }
