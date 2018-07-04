@@ -5,13 +5,14 @@
     using Banking.Application.Dto.Customers;
     using Banking.Application.Dto.Transactions;
     using Banking.Domain.Entity.Customers;
+    using Banking.Domain.Entity.Identities;
     using Banking.Domain.Repository.Common;
+    using Banking.Domain.Service.Customers;
     using Banking.Domain.Service.Identities;
     using Notification;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Banking.Domain.Service.Customers;
 
     public class CustomerApplicationService : ICustomerApplicationService
     {
@@ -83,20 +84,21 @@
                 throw new ArgumentException(notification.ErrorMessage());
             }
 
-            var searchedIdentityUserByEmail = _unitOfWork.IdentityUsers.GetByEmail(entity.Email);
+            var identityUserWithSameEmail = _unitOfWork.IdentityUsers.GetByEmail(entity.Email);
 
-            var searchedIdentityUserByUserName = _unitOfWork.IdentityUsers.GetByUserName(entity.UserName);
+            var identityUserWithSameUserName = _unitOfWork.IdentityUsers.GetByUserName(entity.UserName);
 
-            var newIdentityUser =  _identityUserDomainService.PerformNewUser(entity.UserName, entity.Email, entity.Password,
-                                     entity.Active, searchedIdentityUserByEmail, searchedIdentityUserByUserName);
+            var newIdentityUser = new IdentityUser(entity.UserName, entity.Email, entity.Password, entity.Active);
+
+             _identityUserDomainService.PerformNewUser(newIdentityUser, identityUserWithSameEmail, identityUserWithSameUserName);
 
             _unitOfWork.IdentityUsers.Add(newIdentityUser);
 
             var customer = Mapper.Map<Customer>(entity);
 
-            var searchedCustomerByDni = _unitOfWork.Customers.GetByDni(entity.Dni);
+            var customerWithSameDni = _unitOfWork.Customers.GetByDni(entity.Dni);
 
-            _customerDomainService.PerformNewCustomer(customer, searchedCustomerByDni, newIdentityUser.Id);
+            _customerDomainService.PerformNewCustomer(customer, customerWithSameDni, newIdentityUser.Id);
             
             _unitOfWork.Customers.Add(customer);
            

@@ -7,45 +7,83 @@
     public class IdentityUserDomainService: IIdentityUserDomainService
     {
 
-        public IdentityUser PerformNewUser(string userName, string email, string password,
-                                           bool active, IdentityUser searchedIdentityUserByEmail,
-                                           IdentityUser searchedIdentityUserByUserName)
+        public void PerformNewUser(IdentityUser newIdentityUser,
+                                   IdentityUser identityUserWithSameEmail,
+                                   IdentityUser identityUserWithSameUserName)
         {
 
-            Notification notification = Validation(userName, email, searchedIdentityUserByEmail,
-                                                                    searchedIdentityUserByUserName);
+            Notification notification = Validation(identityUserWithSameEmail, identityUserWithSameUserName);
 
             if (notification.HasErrors())
             {
                 throw new ArgumentException(notification.ErrorMessage());
             }
 
-           return new IdentityUser(userName, email, password, active, "member");
-        
+            newIdentityUser.Role = "member"; // just for demo
         }
 
-        private Notification Validation(string userName, string email, IdentityUser searchedIdentityUserByEmail,
-                                                                      IdentityUser searchedIdentityUserByUserName)
+        public string PerformAuthentication(IdentityUser identityUser,
+                                            string loginUserName, string loginPassword,
+                                            string jwKey, string jwIssuer)
+        {
+            Notification notification = ValidateAuthentication(identityUser, loginUserName, loginPassword);
+
+            if (notification.HasErrors())
+            {
+                throw new ArgumentException(notification.ErrorMessage());
+            }
+
+            return identityUser.BuildToken(jwKey, jwIssuer);
+        }
+
+        private Notification ValidateAuthentication(IdentityUser identityUser, string loginUserName,
+                                                    string loginPassword)
         {
             Notification notification = new Notification();
-            this.ValidateUserName(notification, userName, searchedIdentityUserByUserName);
-            this.ValidateEmail(notification, email, searchedIdentityUserByEmail);
+
+            if (identityUser == null)
+            {
+                notification.AddError("Your account doesn't exists");
+                return notification;
+            }
+
+            if (!identityUser.HasValidCredentials(loginUserName, loginPassword))
+            {
+                notification.AddError("Your credential are not correct");
+                return notification;
+            }
+
+            if (!identityUser.Active)
+            {
+                notification.AddError("Your account is not actived, please reach out the web master.");
+                return notification;
+            }
+
+            return notification;
+        }
+
+        private Notification Validation(IdentityUser identityUserWithSameEmail,
+                                        IdentityUser identityUserWithSameUserName)
+        {
+            Notification notification = new Notification();
+            this.ValidateUserName(notification, identityUserWithSameUserName);
+            this.ValidateEmail(notification, identityUserWithSameEmail);
             
             return notification;
         }
 
-        private void ValidateEmail(Notification notification, string email,
-                                   IdentityUser searchedIdentityUserByEmail)
+        private void ValidateEmail(Notification notification,
+                                   IdentityUser identityUserWithSameEmail)
         {
-            if (email == searchedIdentityUserByEmail.Email)
+            if (identityUserWithSameEmail != null)
             {
                 notification.AddError("That email already exists.");
             }
         }
-        private void ValidateUserName(Notification notification, string userName,
-                                      IdentityUser searchedIdentityUserByUserName)
+        private void ValidateUserName(Notification notification,
+                                      IdentityUser identityUserWithSameUserName)
         {
-            if (userName == searchedIdentityUserByUserName.UserName)
+            if (identityUserWithSameUserName != null)
             {
                 notification.AddError("That user Name already exists.");
             }

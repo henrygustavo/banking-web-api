@@ -8,9 +8,9 @@
     public class CustomerDomainService: ICustomerDomainService
     {
 
-        public void PerformNewCustomer(Customer customer, Customer searchedCustomerByDni, int identityUserId)
+        public void PerformNewCustomer(Customer customer, Customer customerWithSameDni, int identityUserId)
         {
-            Notification notification = ValidationInsert(customer, searchedCustomerByDni);
+            Notification notification = ValidationInsert(customerWithSameDni);
 
             if (notification.HasErrors())
             {
@@ -37,15 +37,15 @@
 
         }
 
-        private Notification ValidationInsert(Customer customer, Customer searchedCustomerByDni)
+        private Notification ValidationInsert(Customer customerWithSameDni)
         {
             Notification notification = new Notification();
-            this.ValidateDni(notification, customer, searchedCustomerByDni);
+            this.ValidateDni(notification, customerWithSameDni);
             
             return notification;
         }
 
-        private Notification ValidationUpdate(Customer customer,IdentityUser identityUser)
+        private Notification ValidationUpdate(Customer customer, IdentityUser identityUser)
         {
             Notification notification = new Notification();
             this.ValidateIdentityUser(notification, identityUser);
@@ -54,9 +54,9 @@
             return notification;
         }
 
-        private void ValidateDni(Notification notification, Customer customer, Customer searchedCustomerByDni)
+        private void ValidateDni(Notification notification, Customer customerWithSameDni)
         {
-            if ( customer.Dni == searchedCustomerByDni.Dni)
+            if (customerWithSameDni != null)
             {
                 notification.AddError("That dni already exists.");
             }
@@ -66,7 +66,7 @@
         {
             if (identityUser == null)
             {
-                notification.AddError("A user account must be attached to this customer.");
+                notification.AddError("An user account must be attached to this customer.");
             }
         }
 
