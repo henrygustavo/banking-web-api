@@ -6,6 +6,7 @@
     using System.Text;
     using System.IdentityModel.Tokens.Jwt;
     using Microsoft.IdentityModel.Tokens;
+    using System.Security.Cryptography;
 
     public class IdentityUser
     {
@@ -23,17 +24,18 @@
 
         }
 
-        public IdentityUser(string userName, string email, string password, bool active)
+        public IdentityUser(string userName, string email, string password,string role, bool active)
         {
             UserName = userName;
             Email = email;
-            Password = password;
+            Password = HashPassword(password);
             Active = active;
+            Role = role;
         }
 
         public bool HasValidCredentials(string userName, string password)
         {
-            return UserName == userName && Password == password;
+            return UserName == userName && Password == HashPassword(password);
         }
 
         public string BuildToken(string jwKey, string jwIssuer)
@@ -57,6 +59,22 @@
                 claims: claims);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private  string HashPassword(string password)
+        {
+            string hashedPassword;
+ 
+            using (var sha256 = SHA256.Create())
+            {
+ 
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+ 
+                hashedPassword = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+  
+            }
+
+            return hashedPassword;
         }
     }
 }

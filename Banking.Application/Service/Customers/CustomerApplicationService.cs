@@ -89,7 +89,7 @@
 
             var identityUserWithSameUserName = _unitOfWork.IdentityUsers.GetByUserName(entity.UserName);
 
-            var newIdentityUser = new IdentityUser(entity.UserName, entity.Email, entity.Password, entity.Active);
+            var newIdentityUser = new IdentityUser(entity.UserName, entity.Email, entity.Password, "member", entity.Active);
 
              _identityUserDomainService.PerformNewUser(newIdentityUser, identityUserWithSameEmail, identityUserWithSameUserName);
 

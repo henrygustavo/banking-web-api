@@ -18,8 +18,6 @@
             {
                 throw new ArgumentException(notification.ErrorMessage());
             }
-
-            newIdentityUser.Role = "member"; // just for demo
         }
 
         public string PerformAuthentication(IdentityUser identityUser,
