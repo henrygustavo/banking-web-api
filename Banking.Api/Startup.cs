@@ -48,7 +48,7 @@
 
             services.AddScoped<ITransactionApplicationService, TransactionApplicationService>();
             services.AddScoped<ICustomerApplicationService, CustomerApplicationService>();
-            services.AddScoped<IAccountApplicationService, AccountApplicationService>();
+            services.AddScoped<IBankAccountApplicationService, BankAccountApplicationService>();
             services.AddScoped<IIdentityUserApplicationService, IdentityUserApplicationService>();
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -104,6 +104,8 @@
                     new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 403));
                 options.Filters.Add(
                     new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 404));
+                options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 415));
                 options.Filters.Add(
                     new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 500));
             });

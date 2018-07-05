@@ -49,7 +49,7 @@
         {
             Notification notification = new Notification();
             this.ValidateCustomer(notification, customer);
-            this.ValidateAccountNumber(notification, bankAccountWithSameNumber);
+            this.ValidateDuplicatedAccountNumber(notification, bankAccountWithSameNumber);
 
             return notification;
         }
@@ -62,11 +62,11 @@
             }
         }
 
-        private void ValidateAccountNumber(Notification notification, BankAccount bankAccountWithSameNumber)
+        private void ValidateDuplicatedAccountNumber(Notification notification, BankAccount bankAccountWithSameNumber)
         {
-            if (bankAccountWithSameNumber == null)
+            if (bankAccountWithSameNumber != null)
             {
-                notification.AddError("Account number already exists.");
+                notification.AddError("Bank Account number already exists.");
             }
         }
 
@@ -74,7 +74,7 @@
         {
             if (bankAccount == null)
             {
-                notification.AddError("Bank Account doesn't exist.");
+                notification.AddError("Bank Account number doesn't exist.");
             }
         }
     }

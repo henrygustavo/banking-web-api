@@ -10,12 +10,12 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class AccountApplicationService : IAccountApplicationService
+    public class BankAccountApplicationService : IBankAccountApplicationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBankAccountDomainService _bankAccountDomainService;
 
-        public AccountApplicationService(IUnitOfWork unitOfWork, IBankAccountDomainService bankAccountDomainService)
+        public BankAccountApplicationService(IUnitOfWork unitOfWork, IBankAccountDomainService bankAccountDomainService)
         {
             _unitOfWork = unitOfWork;
             _bankAccountDomainService = bankAccountDomainService;
@@ -71,9 +71,9 @@
             return _unitOfWork.Complete();
         }
 
-        public int Update(int id, BankAccountInputDto entity)
+        public int Update(int id, BankAccountInputUpdateDto entity)
         {
-            Notification notification = Validation(entity);
+            Notification notification = ValidationUpdate(entity);
 
             if (notification.HasErrors())
             {
@@ -92,8 +92,36 @@
         {
             Notification notification = new Notification();
 
-            if (entity != null) return notification;
-            notification.AddError("Invalid JSON data in request body.");
+            if (entity == null)
+            {
+                notification.AddError("Invalid JSON data in request body.");
+
+                return notification;
+            }
+           
+            if (string.IsNullOrEmpty(entity.Number))
+            {
+                notification.AddError("Bank Account Number is missing");
+
+            }
+            else if (entity.Number.Length != 18)
+            {
+                notification.AddError("Bank Account Number should have 18 numbers");
+            }
+            return notification;
+        }
+
+        private Notification ValidationUpdate(BankAccountInputUpdateDto entity)
+        {
+            Notification notification = new Notification();
+
+            if (entity == null)
+            {
+                notification.AddError("Invalid JSON data in request body.");
+
+                return notification;
+            }
+
             return notification;
         }
     }

@@ -18,15 +18,15 @@
     {
         private readonly ITransactionApplicationService _transactionApplicationService;
         private readonly ICustomerApplicationService _customerApplicationService;
-        private readonly IAccountApplicationService _accountApplicationService;
+        private readonly IBankAccountApplicationService _bankAccountApplicationService;
 
         public BankTransferController(ITransactionApplicationService transactionApplicationService,
                                       ICustomerApplicationService customerApplicationService,
-                                      IAccountApplicationService accountApplicationService)
+                                      IBankAccountApplicationService bankAccountApplicationService)
         {
             _transactionApplicationService = transactionApplicationService;
             _customerApplicationService = customerApplicationService;
-            _accountApplicationService = accountApplicationService;
+            _bankAccountApplicationService = bankAccountApplicationService;
         }
 
         [HttpGet]
@@ -45,7 +45,7 @@
         [ProducesResponseType(typeof(BankAccountNumberOutputDto), 200)]
         public IActionResult GetAccountNumberById(int id)
         {
-            return Ok(_accountApplicationService.GetAccountNumber(id));
+            return Ok(_bankAccountApplicationService.GetAccountNumber(id));
         }
 
         [HttpPost]

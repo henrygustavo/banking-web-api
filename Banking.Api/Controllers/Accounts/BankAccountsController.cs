@@ -8,47 +8,47 @@
     using Banking.Application.Dto.Common;
 
     [Produces("application/json")]
-    [Route("api/bankAccounts")]
+    [Route("api/bankaccounts")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrator")]
     public class BankAccountsController : Controller
     {
-        private readonly IAccountApplicationService _accountApplicationService;
+        private readonly IBankAccountApplicationService _bankAccountApplicationService;
 
-        public BankAccountsController(IAccountApplicationService accountApplicationService)
+        public BankAccountsController(IBankAccountApplicationService bankAccountApplicationService)
         {
-            _accountApplicationService = accountApplicationService;
+            _bankAccountApplicationService = bankAccountApplicationService;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(PaginationOutputDto), 200)]
         public IActionResult GetAll(int page = 1, int pageSize = 10)
         {
-            return Ok(_accountApplicationService.GetAll(page, pageSize));
+            return Ok(_bankAccountApplicationService.GetAll(page, pageSize));
         }
 
-        // GET: api/Accounts/5
+        // GET: api/bankaccounts/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(BankAccountOutputDto), 200)]
         public IActionResult Get(int id)
         {
-            return Ok(_accountApplicationService.Get(id));
+            return Ok(_bankAccountApplicationService.Get(id));
         }
         
-        // POST: api/Accounts
+        // POST: api/bankaccounts
         [HttpPost]
         [ProducesResponseType(typeof(string), 200)]
         public IActionResult Post([FromBody]BankAccountInputDto bankAccount)
         {
-            _accountApplicationService.Add(bankAccount);
+            _bankAccountApplicationService.Add(bankAccount);
             return Ok("bank account was added successfully");
         }
         
-        // PUT: api/Accounts/5
+        // PUT: api/bankaccounts/5
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(string), 200)]
-        public IActionResult Put(int id, [FromBody]BankAccountInputDto bankAccount)
+        public IActionResult Put(int id, [FromBody]BankAccountInputUpdateDto bankAccount)
         {
-            _accountApplicationService.Update(id, bankAccount);
+            _bankAccountApplicationService.Update(id, bankAccount);
             return Ok("bank account was updated successfully");
         }
 
@@ -56,7 +56,7 @@
         [ProducesResponseType(typeof(BankAccountNumberOutputDto), 200)]
         public IActionResult GenerateAccountNumber()
         {
-            return Ok(_accountApplicationService.GenerateAccountNumber());
+            return Ok(_bankAccountApplicationService.GenerateAccountNumber());
         }
     }
 }

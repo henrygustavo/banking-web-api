@@ -27,6 +27,8 @@
                     return "Forbidden";
                 case 404:
                     return "Resource not found";
+                case 415:
+                    return "Unsopported media type";
                 case 500:
                     return "An unknown error has occurred, please try later";
                 default:
