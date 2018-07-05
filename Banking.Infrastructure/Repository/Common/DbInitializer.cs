@@ -28,14 +28,7 @@
         {
             if (_context.IdentityUsers.Any(p => p.UserName == "admin")) return;
 
-            var identityUser = new IdentityUser
-            {
-                Email = "admin@test",
-                UserName = "admin",
-                Password = "admin",
-                Role = "admin",
-                Active = true
-            };
+            var identityUser = new IdentityUser("admin", "admin@test", "admin", "admin", true);
 
             _context.IdentityUsers.Add(identityUser);
         }
@@ -45,13 +38,13 @@
             if (_context.Customers.Any(p => p.Dni == "44444568")) return;
 
             var identityUser = new IdentityUser
-            {
-                Email = "henrygustavof@gmail.com",
-                UserName = "henrygustavo",
-                Password = "123456",
-                Role = "member",
-                Active = true
-            };
+            (
+              "henrygustavo",
+              "henrygustavof@gmail.com",
+              "123456",
+              "member",
+              true
+            );
 
             _context.IdentityUsers.Add(identityUser);
 
@@ -81,13 +74,13 @@
             if (_context.Customers.Any(p => p.Dni == "44444569")) return;
 
             var identityUser = new IdentityUser
-            {
-                Email = "juanPerez@gmail.com",
-                UserName = "juanperez",
-                Password = "123456",
-                Role = "member",
-                Active = true
-            };
+            (
+              "juanperez",
+              "juanPerez@gmail.com",
+              "123456",
+               "member",
+               true
+            );
 
             _context.IdentityUsers.Add(identityUser);
 

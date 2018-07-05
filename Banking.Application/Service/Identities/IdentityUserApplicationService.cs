@@ -3,57 +3,61 @@
     using Banking.Application.Dto.Identities;
     using Banking.Domain.Repository.Common;
     using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Text;
-    using Microsoft.IdentityModel.Tokens;
     using Microsoft.Extensions.Configuration;
-    using System.Security.Claims;
+    using Notification;
+    using Banking.Domain.Service.Identities;
 
     public class IdentityUserApplicationService: IIdentityUserApplicationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
-        public IdentityUserApplicationService(IUnitOfWork unitOfWork, IConfiguration config)
+        private readonly IIdentityUserDomainService _identityUserDomainService;
+        public IdentityUserApplicationService(IUnitOfWork unitOfWork, IConfiguration config,
+            IIdentityUserDomainService identityUserDomainService)
         {
             _unitOfWork = unitOfWork;
             _config = config;
+            _identityUserDomainService = identityUserDomainService;
         }
 
         public JwTokenOutputDto PerformAuthentication(CredentialInputDto credential)
         {
             var identityUser = _unitOfWork.IdentityUsers.GetByUserName(credential.UserName);
 
-            if(identityUser == null) return new JwTokenOutputDto();
+            Notification notification = Validation(credential);
 
-            if (!identityUser.Active) return new JwTokenOutputDto();
+            if (notification.HasErrors())
+            {
+                throw new ArgumentException(notification.ErrorMessage());
+            }
+            
+            string accessToken = _identityUserDomainService.PerformAuthentication(identityUser, credential.UserName,
+                                                            credential.Password, _config["Jwt:Key"], _config["Jwt:Issuer"]);
 
-            if (!identityUser.HasValidCredentials(credential.UserName, credential.Password)) return new JwTokenOutputDto();
-
-            int customerId = identityUser.Customer?.Id ?? 0;
-
-            return new JwTokenOutputDto { access_token = BuildToken(customerId, identityUser.UserName, identityUser.Role) };
+            return new JwTokenOutputDto { access_token = accessToken };
         }
 
-        private string BuildToken(int customerId, string userName, string role)
+        private Notification Validation(CredentialInputDto credential)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            Notification notification = new Notification();
 
-            var claims = new[]
+            if (credential == null)
             {
-                new Claim("customerId", customerId.ToString()),
-                new Claim("userName", userName),
-                new Claim("role", role),
-                new Claim(ClaimTypes.Role, role)
-            };
+                notification.AddError("Invalid JSON data in request body.");
+                return notification;
+            }
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds,
-                claims: claims);
+            if (string.IsNullOrEmpty(credential.UserName))
+            {
+                notification.AddError("UserName is missing");
+            }
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            if (string.IsNullOrEmpty(credential.Password))
+            {
+                notification.AddError("Password is missing");
+            }
+
+            return notification;
         }
     }
 }

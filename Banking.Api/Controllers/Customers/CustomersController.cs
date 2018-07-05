@@ -50,7 +50,7 @@
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(string), 200)]
-        public IActionResult Put(int id, [FromBody]CustomerInputDto customer)
+        public IActionResult Put(int id, [FromBody]CustomerInputUpdateDto customer)
         {
             _customerApplicationService.Update(id, customer);
             return Ok("customer was updated sucessfully");

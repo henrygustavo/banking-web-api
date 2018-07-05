@@ -12,6 +12,7 @@
         public MapperProfile()
         {
             CreateMap<Customer, CustomerInputDto>().ReverseMap();
+            CreateMap<Customer, CustomerInputUpdateDto>().ReverseMap();
 
             CreateMap<Customer, CustomerOutputDto>()
                 .ForMember(destination => destination.FullName,

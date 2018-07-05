@@ -8,25 +8,28 @@
     <Compile Remove="Entity\Common\**" />
     <Compile Remove="Entity\Transactions\**" />
     <Compile Remove="Repository\Transactions\**" />
-    <Compile Remove="Service\Accounts\**" />
     <Compile Remove="Service\Common\**" />
-    <Compile Remove="Service\Customers\**" />
     <EmbeddedResource Remove="Entity\Common\**" />
     <EmbeddedResource Remove="Entity\Transactions\**" />
     <EmbeddedResource Remove="Repository\Transactions\**" />
-    <EmbeddedResource Remove="Service\Accounts\**" />
     <EmbeddedResource Remove="Service\Common\**" />
-    <EmbeddedResource Remove="Service\Customers\**" />
     <None Remove="Entity\Common\**" />
     <None Remove="Entity\Transactions\**" />
     <None Remove="Repository\Transactions\**" />
-    <None Remove="Service\Accounts\**" />
     <None Remove="Service\Common\**" />
-    <None Remove="Service\Customers\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Banking.Application.Notification\Banking.Application.Notification.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel.Tokens">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.identitymodel.tokens\5.1.4\lib\netstandard1.4\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\system.identitymodel.tokens.jwt\5.1.4\lib\netstandard1.4\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

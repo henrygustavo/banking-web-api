@@ -10,6 +10,9 @@
     using Domain.Repository.Common;
     using Domain.Repository.Customers;
     using Domain.Repository.Identities;
+    using Domain.Service.Accounts;
+    using Domain.Service.Customers;
+    using Domain.Service.Identities;
     using Domain.Service.Transactions;
     using Infrastructure.Repository.Accounts;
     using Infrastructure.Repository.Common;
@@ -25,6 +28,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Text;
+
 
     public class Startup
     {
@@ -44,15 +48,17 @@
 
             services.AddScoped<ITransactionApplicationService, TransactionApplicationService>();
             services.AddScoped<ICustomerApplicationService, CustomerApplicationService>();
-            services.AddScoped<IAccountApplicationService, AccountApplicationService>();
+            services.AddScoped<IBankAccountApplicationService, BankAccountApplicationService>();
             services.AddScoped<IIdentityUserApplicationService, IdentityUserApplicationService>();
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<IIdentityUserRepository, IdentityUserRepository>();
 
+            services.AddScoped<IIdentityUserDomainService, IdentityUserDomainService>();
+            services.AddScoped<ICustomerDomainService, CustomerDomainService>();
+            services.AddScoped<IBankAccountDomainService, BankAccountDomainService>();
             services.AddScoped<ITransferDomainService, TransferDomainService>();
-
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -93,7 +99,13 @@
                 options.Filters.Add(
                     new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 400));
                 options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 401));
+                options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 403));
+                options.Filters.Add(
                     new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 404));
+                options.Filters.Add(
+                    new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 415));
                 options.Filters.Add(
                     new Microsoft.AspNetCore.Mvc.ProducesResponseTypeAttribute(typeof(ErrorResponse), 500));
             });

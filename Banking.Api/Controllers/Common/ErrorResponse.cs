@@ -21,8 +21,14 @@
             {
                 case 400:
                     return "Bad Request";
+                case 401:
+                    return "You are Unauthorized";
+                case 403:
+                    return "Forbidden";
                 case 404:
                     return "Resource not found";
+                case 415:
+                    return "Unsopported media type";
                 case 500:
                     return "An unknown error has occurred, please try later";
                 default:
