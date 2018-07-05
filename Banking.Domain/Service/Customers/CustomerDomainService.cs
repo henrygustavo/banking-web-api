@@ -49,7 +49,7 @@
         {
             Notification notification = new Notification();
             this.ValidateIdentityUser(notification, identityUser);
-            this.ValidateId(notification, customer);
+            this.ValidateCustomer(notification, customer);
 
             return notification;
         }
@@ -58,7 +58,7 @@
         {
             if (customerWithSameDni != null)
             {
-                notification.AddError("That dni already exists.");
+                notification.AddError("That dni already exists");
             }
         }
 
@@ -66,15 +66,15 @@
         {
             if (identityUser == null)
             {
-                notification.AddError("An user account must be attached to this customer.");
+                notification.AddError("An user account must be attached to this customer");
             }
         }
 
-        private void ValidateId(Notification notification, Customer customer)
+        private void ValidateCustomer(Notification notification, Customer customer)
         {
-            if (customer.Id == 0)
+            if (customer == null)
             {
-                notification.AddError("This customer does not have an id");
+                notification.AddError("Customer doesn't exist");
             }
         }
     }

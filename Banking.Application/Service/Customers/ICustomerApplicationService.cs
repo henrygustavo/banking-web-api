@@ -5,7 +5,7 @@
     using Common;
     using System.Collections.Generic;
 
-    public interface ICustomerApplicationService : IBaseApplicationService<CustomerInputDto, CustomerOutputDto>
+    public interface ICustomerApplicationService : IBaseApplicationService<CustomerInputDto, CustomerInputUpdateDto, CustomerOutputDto>
     {
         CustomerOutputDto GetByDni(string dni);
 

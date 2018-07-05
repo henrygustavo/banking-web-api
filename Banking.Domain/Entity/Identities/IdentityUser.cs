@@ -52,7 +52,7 @@
 
             var token = new JwtSecurityToken(jwIssuer,
                 jwIssuer,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: creds,
                 claims: claims);
 

@@ -13,6 +13,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     public class CustomerApplicationService : ICustomerApplicationService
     {
@@ -77,7 +78,7 @@
 
         public int Add(CustomerInputDto entity)
         {
-            Notification notification = Validation(entity);
+            Notification notification = ValidationInsert(entity);
 
             if (notification.HasErrors())
             {
@@ -107,9 +108,9 @@
             return customer.Id;
         }
 
-        public int Update(int id, CustomerInputDto entity)
+        public int Update(int id, CustomerInputUpdateDto entity)
         {
-            Notification notification = Validation(entity);
+            Notification notification = ValidationUpdate(entity);
 
             if (notification.HasErrors())
             {
@@ -118,23 +119,115 @@
 
             var customer = _unitOfWork.Customers.Get(id);
 
-            var identityUser = _unitOfWork.IdentityUsers.Get(customer.IdentityUserId);
+            var identityUser = _unitOfWork.IdentityUsers.Get(customer?.IdentityUserId ?? 0);
 
             _customerDomainService.PerformUpdateCustomer(customer, entity.FirstName, entity.LastName,
                                                          entity.Active, identityUser);
             _unitOfWork.Customers.Update(customer);
             _unitOfWork.Complete();
 
-            return customer.Id;
+            return customer?.Id ?? 0;
         }
 
-        private Notification Validation(CustomerInputDto entity)
+        private Notification ValidationInsert(CustomerInputDto entity)
         {
             Notification notification = new Notification();
 
-            if (entity != null) return notification;
-            notification.AddError("Invalid JSON data in request body.");
+            if (entity == null)
+            {
+                notification.AddError("Invalid JSON data in request body");
+                return notification;
+            }
+           
+            if (string.IsNullOrEmpty(entity.Dni))
+            {
+                notification.AddError("DNI is missing");
+
+            }else if (entity.Dni.Length != 8)
+            {
+                notification.AddError("DNI should have 8 numbers");
+            }
+
+            if (string.IsNullOrEmpty(entity.FirstName))
+            {
+                notification.AddError("FirstName is missing");
+            }
+            else if (entity.FirstName.Length < 2)
+            {
+                notification.AddError("FirstName should have min 2 characters");
+            }
+
+            if (string.IsNullOrEmpty(entity.LastName))
+            {
+                notification.AddError("LastName is missing");
+            }
+            else if (entity.LastName.Length < 2)
+            {
+                notification.AddError("LastName should have min 2 characters");
+            }
+
+            if (string.IsNullOrEmpty(entity.UserName))
+            {
+                notification.AddError("UserName is missing");
+            }
+            else if (entity.UserName.Length < 4)
+            {
+                notification.AddError("UserName should have min 4 characters");
+            }
+
+            if (string.IsNullOrEmpty(entity.Password))
+            {
+                notification.AddError("Password is missing");
+            }
+            else if (entity.Password.Length < 6)
+            {
+                notification.AddError("Password should have min 6 characters");
+            }
+
+            if (!IsValidEmail(entity.Email))
+            {
+                notification.AddError("Email is not valid");
+                return notification;
+            }
+
             return notification;
+        }
+
+        private Notification ValidationUpdate(CustomerInputUpdateDto entity)
+        {
+            Notification notification = new Notification();
+
+            if (entity == null)
+            {
+                notification.AddError("Invalid JSON data in request body.");
+                return notification;
+            }
+
+            if (string.IsNullOrEmpty(entity.FirstName))
+            {
+                notification.AddError("FirstName is missing");
+            }
+            else if (entity.FirstName.Length < 2)
+            {
+                notification.AddError("FirstName should have min 2 characters");
+            }
+
+            if (string.IsNullOrEmpty(entity.LastName))
+            {
+                notification.AddError("LastName is missing");
+            }
+            else if (entity.LastName.Length < 2)
+            {
+                notification.AddError("LastName should have min 2 characters");
+            }
+
+            return notification;
+
+        }
+        
+        private bool IsValidEmail(string email)
+        {
+            return Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
     }
 }

@@ -21,6 +21,10 @@
             {
                 case 400:
                     return "Bad Request";
+                case 401:
+                    return "You are Unauthorized";
+                case 403:
+                    return "Forbidden";
                 case 404:
                     return "Resource not found";
                 case 500:
