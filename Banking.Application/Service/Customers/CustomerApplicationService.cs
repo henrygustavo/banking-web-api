@@ -61,9 +61,9 @@
             return customer == null ? new CustomerOutputDto() : Mapper.Map<CustomerOutputDto>(customer);
         }
 
-        public PaginationOutputDto GetAll(int page, int pageSize)
+        public PaginationOutputDto GetAll(int page, int pageSize, string sortBy, string sortDirection)
         {
-            var entities = _unitOfWork.Customers.GetAll(page, pageSize, "lastName", "asc").ToList();
+            var entities = _unitOfWork.Customers.GetAll(page, pageSize, sortBy, sortDirection).ToList();
 
             var pagedRecord = new PaginationOutputDto
             {

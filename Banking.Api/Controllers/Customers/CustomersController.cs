@@ -21,9 +21,9 @@
 
         [HttpGet]
         [ProducesResponseType(typeof(PaginationOutputDto), 200)]
-        public IActionResult GetAll(int page = 1, int pageSize = 10)
+        public IActionResult GetAll(int page = 1, int pageSize = 10, string sortBy = "lastName", string sortDirection = "asc")
         {
-            return Ok(_customerApplicationService.GetAll(page, pageSize));
+            return Ok(_customerApplicationService.GetAll(page, pageSize, sortBy, sortDirection));
         }
 
         [HttpGet("{id}")]

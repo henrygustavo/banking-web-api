@@ -9,7 +9,7 @@
         string GenerateAccountNumber();
 
         IEnumerable<BankAccount> GetAllWithCustomers(int pageNumber, int pageSize,
-            string orderBy, string orderDirection);
+            string sortBy, string sortDirection);
 
         BankAccount GetWithCustomer(int id);
 
