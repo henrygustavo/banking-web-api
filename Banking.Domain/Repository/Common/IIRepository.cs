@@ -10,7 +10,7 @@
         IEnumerable<TEntity> GetAll();
 
         IEnumerable<TEntity> GetAll(int pageNumber, int pageSize,
-            string orderBy, string orderDirection);
+            string sortBy, string sortDirection);
 
         int CountGetAll();
 

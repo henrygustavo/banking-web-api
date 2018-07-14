@@ -6,13 +6,13 @@
 
     public static class QueryableExtensions
     {
-        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string orderBy, string orderDirection)
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string sortBy, string sortDirection)
         {
             var expression = source.Expression;
 
             var parameter = Expression.Parameter(typeof(T), "x");
-            var selector = Expression.PropertyOrField(parameter, orderBy);
-            var method = string.Equals(orderDirection, "desc", StringComparison.OrdinalIgnoreCase)
+            var selector = Expression.PropertyOrField(parameter, sortBy);
+            var method = string.Equals(sortDirection, "desc", StringComparison.OrdinalIgnoreCase)
                 ? "OrderByDescending"
                 : "OrderBy";
             expression = Expression.Call(typeof(Queryable), method,

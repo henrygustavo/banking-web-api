@@ -21,9 +21,9 @@
 
         [HttpGet]
         [ProducesResponseType(typeof(PaginationOutputDto), 200)]
-        public IActionResult GetAll(int page = 1, int pageSize = 10)
+        public IActionResult GetAll(int page = 1, int pageSize = 10, string sortBy = "number", string sortDirection = "asc")
         {
-            return Ok(_bankAccountApplicationService.GetAll(page, pageSize));
+            return Ok(_bankAccountApplicationService.GetAll(page, pageSize, sortBy, sortDirection));
         }
 
         // GET: api/bankaccounts/5

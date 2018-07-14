@@ -37,9 +37,9 @@
             return new BankAccountNumberOutputDto { AccountNumber = _unitOfWork.BankAccounts.Get(id).Number };
         }
 
-        public PaginationOutputDto GetAll(int page, int pageSize)
+        public PaginationOutputDto GetAll(int page, int pageSize, string sortBy, string sortDirection)
         {
-            var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, "number", "desc").ToList();
+            var entities = _unitOfWork.BankAccounts.GetAllWithCustomers(page, pageSize, sortBy, sortDirection).ToList();
 
             var pagedRecord = new PaginationOutputDto
             {

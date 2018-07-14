@@ -28,12 +28,12 @@
         }
 
         public IEnumerable<TEntity> GetAll(int pageNumber, int pageSize,
-                                           string orderBy, string orderDirection)
+                                           string sortBy, string sortDirection)
         {
 
             var skip = (pageNumber - 1) * pageSize;
             return Context.Set<TEntity>()
-                .OrderBy(orderBy, orderDirection)
+                .OrderBy(sortBy, sortDirection)
                 .Skip(skip)
                 .Take(pageSize);
         }

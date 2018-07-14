@@ -21,11 +21,11 @@
         }
 
         public IEnumerable<BankAccount> GetAllWithCustomers(int pageNumber, int pageSize,
-            string orderBy, string orderDirection)
+            string sortBy, string sortDirection)
         {
             var skip = (pageNumber - 1) * pageSize;
             return Context.Set<BankAccount>().Include(p=>p.Customer)
-                .OrderBy(orderBy, orderDirection)
+                .OrderBy(sortBy, sortDirection)
                 .Skip(skip)
                 .Take(pageSize);
         }
